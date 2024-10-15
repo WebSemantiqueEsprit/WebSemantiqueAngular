@@ -1,0 +1,12 @@
+<!-- foyer-details.component.html -->
+
+<div *ngIf="foyerDetails" class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card text-center">
+        <div class="card-body">
+            <img src="assets/img/maxresdefault.jpg" class="card-img-top w-25 mx-auto" alt="Image Alt Text">
+            <h2 class="card-title text-4xl font-bold mb-4">{{ foyerDetails.nomFoyer }}</h2>
+            <p class="card-text text-xl">Capacité: {{ foyerDetails.capaciteFoyer }}</p>
+            <!-- Add other fields as needed -->
+        </div>
+    </div>
+</div>
