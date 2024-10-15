@@ -12,25 +12,25 @@ export class ChambreService {
 
 
   getAllData(): Observable<Chambre[]> {
-    return this.httpClient.get<Chambre[]> ('http://localhost:8080/chambre/chambres');
+    return this.httpClient.get<Chambre[]> ('http://localhost:8082/chambre/chambres');
   }
 
   addChambre(chambre: any) {
-    return this.httpClient.post('http://localhost:8080/chambre/blocs/addChambre', chambre)
+    return this.httpClient.post('http://localhost:8082/chambre/blocs/addChambre', chambre)
  }
 
  getBlocNames(): Observable<string[]> {
-  return this.httpClient.get<string[]>('http://localhost:8080/chambre/blocnames');
+  return this.httpClient.get<string[]>('http://localhost:8082/chambre/blocnames');
 }
 
 deleteChambre(id:any) {
-  return this.httpClient.delete('http://localhost:8080/chambre/delete/'+id);
+  return this.httpClient.delete('http://localhost:8082/chambre/delete/'+id);
 }
 editChambre(id: any,chambre:any): Observable<any> {
-  return this.httpClient.put('http://localhost:8080/chambre/update/'+id, chambre);
+  return this.httpClient.put('http://localhost:8082/chambre/update/'+id, chambre);
 }
 getChambre(id:any) {
-  return this.httpClient.get('http://localhost:8080/chambre/getId/'+id);
+  return this.httpClient.get('http://localhost:8082/chambre/getId/'+id);
 }
 
 }

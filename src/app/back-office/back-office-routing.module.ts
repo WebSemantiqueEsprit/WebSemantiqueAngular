@@ -14,6 +14,10 @@ const routes: Routes = [
         {path:"foyer",loadChildren:()=> import('./foyer/foyer.module').then(m=>m.FoyerModule)},
       {path:"chambre",loadChildren:()=>   import('./chambre/chambre.module').then(m=>m.ChambreModule)},
       {path:"reservation",loadChildren:()=>   import('./reservation/reservation.module').then(m=>m.ReservationModule)},
+
+      {path:"carbonfootprint",loadChildren:()=>   import('./CARBONFOOTPRINT/carbonfootprint.module').then(m=>m.carbonfootprintModule)},
+
+
       {path:"dashboard", component:HomeBackComponent}
 
 ]}];

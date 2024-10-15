@@ -1,14 +1,14 @@
 {
   "/api": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8082",
     "secure": false
   },
   "/universite": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8082",
     "secure": false
   },
   "/foyer": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8082",
     "secure": false
   }
 }

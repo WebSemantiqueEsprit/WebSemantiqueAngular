@@ -1,0 +1,99 @@
+<div class="container mt-20">
+
+    <!-- Définition de l'empreinte carbone -->
+    <h3 class="text-3xl font-bold mb-6 text-center">
+        Empreinte Carbone
+    </h3>
+    <p class="text-lg text-gray-600 mb-8 text-center">
+        L'empreinte carbone désigne la quantité totale de gaz à effet de serre émis directement ou indirectement par les
+        activités humaines,
+        comme l'utilisation des combustibles fossiles, la production industrielle, ou encore les transports.
+    </p>
+
+    <!-- Bouton pour ajouter une nouvelle empreinte carbone -->
+    <div class="text-center mb-6">
+        <button (click)="addFootprint()"
+            class="bg-blue-500 text-white rounded-md px-6 py-2 hover:bg-blue-600 transition duration-200">
+            Ajouter une nouvelle empreinte carbone
+        </button>
+    </div>
+
+    <!-- Liste des empreintes carbone -->
+    <div *ngIf="carbonFootprints.length > 0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div *ngFor="let footprint of carbonFootprints"
+                class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 text-center">
+                <p><strong>Nom d'empreinte carbone :</strong> {{ footprint.footprintName }}</p>
+                <p><strong>Valeur carbone :</strong> {{ footprint.hasCarbonValue }} kgCO2</p>
+                <p><strong>Type :</strong> {{ footprint.hasType }}</p>
+
+                <!-- Boutons pour mettre à jour ou supprimer -->
+                <div class="mt-4 flex justify-center space-x-4">
+                    <!-- Bouton Modifier (vert) -->
+                    <!-- Bouton Modifier (vert) -->
+                    <button (click)="updateFootprint(footprint)"
+                        class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 5l3 3m0 0l-12 12H4v-4L16 5z" />
+                        </svg>
+                    </button>
+
+                    <!-- Bouton Supprimer (rouge) -->
+                    <button (click)="deleteFootprint(footprint)"
+                        class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message si aucune empreinte carbone n'est trouvée -->
+    <div *ngIf="carbonFootprints.length === 0" class="text-center">
+        <p class="text-gray-500">Aucune empreinte carbone trouvée.</p>
+    </div>
+
+
+    <!-- Modal for adding/updating footprints -->
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white shadow-lg rounded-lg p-6 w-96 md:w-96 hover:shadow-xl transition-shadow duration-300 text-start">
+            <h2 class="text-xl font-bold mb-4">{{ editFootprint ? 'Modifier l\'empreinte carbone' : 'Ajouter une
+                nouvelle empreinte carbone' }}</h2>
+            <form (ngSubmit)="editFootprint ? submitUpdatedFootprint() : submitNewFootprint()">
+                <div class="mb-4">
+                    <label class="block mb-1">Nom de l'empreinte carbone:</label>
+                    <input type="text" [(ngModel)]="newFootprint.footprintName"  name="footprintName" required
+                        class="border border-gray-300 rounded-md p-2 w-full" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Valeur carbone (kgCO2):</label>
+                    <input type="number" [(ngModel)]="newFootprint.carbonValue" name="carbonValue" required
+                        class="border border-gray-300 rounded-md p-2 w-full" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Type:</label>
+                    <input type="text" [(ngModel)]="newFootprint.type" name="type" required
+                        class="border border-gray-300 rounded-md p-2 w-full" />
+                </div>
+                <div class="flex justify-between">
+                    <button type="submit"
+                        class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+                        {{ editFootprint ? 'Mettre à jour' : 'Ajouter' }}
+                    </button>
+                    <button (click)="closeModal()" type="button"
+                        class="border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+                        Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
