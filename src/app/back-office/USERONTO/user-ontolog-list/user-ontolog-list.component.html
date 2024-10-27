@@ -1,0 +1,97 @@
+<div class="container mt-20">
+  <!-- Header for User Section -->
+  <h3 class="text-3xl font-bold mb-6 text-center">
+    Utilisateurs
+  </h3>
+  <p class="text-lg text-gray-600 mb-8 text-center">
+    Liste des utilisateurs avec leurs objectifs d'empreinte carbone.
+  </p>
+
+  <!-- Button to Add New User -->
+  <div class="text-center mb-6">
+    <button (click)="addUser()"
+            class="bg-blue-500 text-white rounded-md px-6 py-2 hover:bg-blue-600 transition duration-200">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
+
+  <!-- User List -->
+  <div *ngIf="users.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let user of users"
+         class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 text-center">
+      <p><strong>Uri:</strong> {{ user.URI }}</p>
+      <p><strong>Nom:</strong> {{ user.Name }}</p>
+      <p><strong>Email :</strong> {{ user.Email }}</p>
+      <p><strong>Objectif Empreinte Carbone :</strong> {{ user.CarbonFootprintGoal }} kg CO2</p>
+
+      <!-- Update and Delete Buttons -->
+      <div class="mt-4 flex justify-center space-x-4">
+        <!-- Update Button (green) -->
+        <button (click)="updateUser(user)"
+                class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+               class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 5l3 3m0 0l-12 12H4v-4L16 5z" />
+          </svg>
+        </button>
+
+        <!-- Delete Button (red) -->
+        <button (click)="deleteUser(user)"
+                class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+               class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message if No Users Found -->
+  <div *ngIf="users.length === 0" class="text-center">
+    <p class="text-gray-500">Aucun utilisateur trouvé.</p>
+  </div>
+
+  <!-- Modal for Adding/Updating Users -->
+  <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md hover:shadow-xl transition-shadow duration-300">
+      <h2 class="text-xl font-bold mb-4">
+        {{ editUser ? 'Modifier l\'utilisateur' : 'Ajouter un nouvel utilisateur' }}
+      </h2>
+      <form (ngSubmit)="editUser ? submitUpdatedUser() : submitNewUser()">
+
+        <div class="mb-4">
+          <label for="name" class="block mb-1">Name :</label>
+          <input id="name" type="text" [(ngModel)]="editUser ? newUser.Name : newUser.name" name="name" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block mb-1">Email :</label>
+          <input id="email" type="email" [(ngModel)]="editUser ? newUser.Email : newUser.email" name="email" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <div class="mb-4">
+          <label for="carbonFootprintGoal" class="block mb-1">Objectif Empreinte Carbone (kg CO2) :</label>
+          <input id="carbonFootprintGoal" type="number" [(ngModel)]="editUser ? newUser.CarbonFootprintGoal : newUser.carbonFootprintGoal" name="carbonFootprintGoal" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <div class="flex justify-between">
+          <button type="submit"
+                  class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+            {{ editUser ? 'Mettre à jour' : 'Ajouter' }}
+          </button>
+          <button type="button" (click)="closeModal()"
+                  class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200">
+            Annuler
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

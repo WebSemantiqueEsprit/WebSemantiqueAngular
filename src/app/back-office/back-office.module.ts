@@ -9,6 +9,10 @@ import { NavComponent } from './nav/nav.component';
 import { BlocModule } from './bloc/bloc.module';
 import {HttpClientModule} from '@angular/common/http' ;
 import { FormsModule } from '@angular/forms';
+import { UniversiteModule } from './universite/universite.module';
+import { FoyerModule } from './foyer/foyer.module';
+import { ConsommationEnergieListComponent } from './ConsommationENERGIE/consommation-energie-list/consommation-energie-list.component';
+import { UserOntologListComponent } from './USERONTO/user-ontolog-list/user-ontolog-list.component';
 
 
 
@@ -24,6 +28,7 @@ import { FormsModule } from '@angular/forms';
             HomeBackComponent,
             SidebarComponent,
             NavComponent,
+            UserOntologListComponent ,
          ],
   imports: [
     CommonModule,
