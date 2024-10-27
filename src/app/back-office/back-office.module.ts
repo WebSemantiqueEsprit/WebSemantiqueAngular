@@ -9,8 +9,6 @@ import { NavComponent } from './nav/nav.component';
 import { BlocModule } from './bloc/bloc.module';
 import {HttpClientModule} from '@angular/common/http' ;
 import { FormsModule } from '@angular/forms';
-import { UniversiteModule } from './universite/universite.module';
-import { FoyerModule } from './foyer/foyer.module';
 
 
 

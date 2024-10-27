@@ -24,7 +24,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NotFoundComponent,
 
 
-    ChartDemoComponent
+    ChartDemoComponent,
    ],
   imports: [
     BrowserModule,

@@ -1,0 +1,90 @@
+<div class="energy-efficiency">
+  <h2>Energy Efficiencies</h2>
+
+  <!-- Add New Efficiency Form -->
+  <section>
+    <h3>Add New Efficiency</h3>
+    <label>
+      Efficiency Name:
+      <input [(ngModel)]="newEfficiency.efficiencyName" placeholder="Efficiency Name" />
+    </label>
+    <label>
+      Category:
+      <input [(ngModel)]="newEfficiency.category" placeholder="Category" />
+    </label>
+    <label>
+      Efficiency Value:
+      <input type="number" [(ngModel)]="newEfficiency.efficiencyValue" placeholder="Efficiency Value" />
+    </label>
+    <button (click)="addEnergyEfficiency()">Add Efficiency</button>
+  </section>
+
+  <!-- Update Selected Efficiency Form -->
+  <section *ngIf="selectedEfficiency">
+    <h3>Edit Efficiency</h3>
+    <label>
+      Efficiency Name:
+      <input [(ngModel)]="selectedEfficiency.efficiencyName" placeholder="Efficiency Name" disabled />
+    </label>
+    <label>
+      Category:
+      <input [(ngModel)]="selectedEfficiency.category" placeholder="Category" />
+    </label>
+    <label>
+      Efficiency Value:
+      <input type="number" [(ngModel)]="selectedEfficiency.efficiencyValue" placeholder="Efficiency Value" />
+    </label>
+    <button (click)="updateEnergyEfficiency()">Update Efficiency</button>
+    <button (click)="selectedEfficiency = null">Cancel</button>
+  </section>
+
+  <!-- Search Efficiency Form -->
+  <section>
+    <h3>Search Efficiency</h3>
+    <label>
+      Efficiency Name:
+      <input [(ngModel)]="searchEfficiencyName" placeholder="Enter Efficiency Name" />
+    </label>
+    <button (click)="searchEfficiency(searchEfficiencyName)">Search</button>
+  </section>
+
+  <!-- Filter Efficiencies Form -->
+  <section>
+    <h3>Filter Efficiencies</h3>
+    <label>
+      Rating:
+      <input [(ngModel)]="filterRating" placeholder="Rating" />
+    </label>
+    <label>
+      Min Savings Potential:
+      <input type="number" [(ngModel)]="filterMinSavings" placeholder="Min Savings Potential" />
+    </label>
+    <button (click)="filterEfficiencies(filterRating, filterMinSavings)">Filter</button>
+  </section>
+
+  <!-- Efficiency List -->
+  <section>
+    <h3>Efficiency List</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Efficiency Name</th>
+        <th>Category</th>
+        <th>Efficiency Value</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let efficiency of efficiencies">
+        <td>{{ efficiency.efficiencyName }}</td>
+        <td>{{ efficiency.category }}</td>
+        <td>{{ efficiency.efficiencyValue }}</td>
+        <td>
+          <button (click)="editEfficiency(efficiency)">Edit</button>
+          <button (click)="deleteEnergyEfficiency(efficiency.efficiencyName)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

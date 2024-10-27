@@ -1,0 +1,17 @@
+<div>
+  <h2>Behavior Patterns</h2>
+
+  <h3>Add New Behavior Pattern</h3>
+  <input [(ngModel)]="newPattern.name" placeholder="Name" />
+  <input [(ngModel)]="newPattern.usagePattern" placeholder="Usage Pattern" />
+  <input [(ngModel)]="newPattern.reductionPotential" placeholder="Reduction Potential" type="number" />
+  <button (click)="addBehaviorPattern()">Add</button>
+
+  <h3>Existing Behavior Patterns</h3>
+  <ul>
+    <li *ngFor="let pattern of behaviorPatterns">
+      {{ pattern.name }} - {{ pattern.usagePattern }} - {{ pattern.reductionPotential }}
+      <button (click)="deleteBehaviorPattern(pattern.name)">Delete</button>
+    </li>
+  </ul>
+</div>
