@@ -1,88 +1,229 @@
-<div class="container mt-20">
-    <!-- Définition de la stratégie de réduction du carbone -->
-    <h3 class="text-3xl font-bold mb-6 text-center">
+<div class="container mx-auto mt-12 px-5">
+
+    <!-- Titre et description -->
+    <h3 class="text-4xl font-bold mb-4 text-center text-gray-800">
         Stratégies de Réduction du Carbone
     </h3>
-    <p class="text-lg text-gray-600 mb-8 text-center">
+    <!-- Bouton pour ajouter une nouvelle stratégie avec icône -->
+    <div class="text-center mb-8">
+        <button (click)="openModal()"
+            class="bg-blue-600 text-white rounded-full mx-auto px-2 py-2 shadow-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+
+        </button>
+    </div>
+
+    <p class="text-lg text-gray-600 mb-10 text-center max-w-6xl mx-auto leading-relaxed">
         Les stratégies de réduction du carbone visent à minimiser les émissions de gaz à effet de serre à travers
         diverses actions et innovations.
     </p>
 
-    <!-- Bouton pour ajouter une nouvelle stratégie -->
-    <div class="text-center mb-6">
-        <button (click)="openModal()"
-            class="bg-blue-500 text-white rounded-md px-6 py-2 hover:bg-blue-600 transition duration-200">
-            Ajouter une nouvelle stratégie de réduction
-        </button>
+
+
+    <!-- Barre de recherche -->
+    <div class="flex justify-center mb-10">
+        <div class="flex w-full max-w-md">
+            <!-- Champ de recherche [(ngModel)]="searchValue" -->
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Rechercher par nom"
+                class="border border-gray-300 rounded-l-md p-3 w-full focus:outline-none">
+
+            <!-- Bouton de recherche (click)="searchFootprint()" -->
+            <button (click)="searchStrategy()"
+                class="bg-blue-600 text-white px-4 rounded-r-none shadow hover:bg-blue-700 transition duration-300">
+                Rechercher
+            </button>
+
+            <!-- Bouton de filtrage ouvre la modale  (click)="openFilterModal()" -->
+            <button (click)="openFilterModal()"
+                class="bg-gray-300 text-gray-700 px-4 rounded-r-md shadow hover:bg-gray-400 transition duration-300 flex items-center justify-center">
+                <!-- Icône de filtre -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-5.414 5.414a1 1 0 00-.293.707v4.586a1 1 0 01-.293.707l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 01-.293-.707v-4.586a1 1 0 00-.293-.707L3.293 6.707A1 1 0 013 6V4z" />
+                </svg>
+            </button>
+        </div>
     </div>
 
+
     <!-- Liste des stratégies de réduction -->
-    <div *ngIf="strategies.length > 0">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div *ngFor="let strategy of strategies"
-                class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 text-center">
-                <p><strong>Nom de la stratégie :</strong> {{ strategy.reductionStrategyName }}</p>
-                <p><strong>Coût :</strong> {{ strategy.hasCost }} €</p>
-                <p><strong>Impact :</strong> {{ strategy.hasImpactValue }} kgCO2</p>
+    <div *ngIf="paginatedStrategies.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let strategy of paginatedStrategies"
+            class="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 text-center">
+            <p class="font-semibold text-lg mb-2 text-gray-800">{{ strategy.reductionStrategyName }}</p>
+            <p class="text-gray-600"><strong>Coût:</strong> {{ strategy.hasCost }} €</p>
+            <p class="text-gray-600"><strong>Impact:</strong> {{ strategy.hasImpactValue }} kgCO2</p>
 
-                <!-- Boutons pour mettre à jour ou supprimer -->
-                <div class="mt-4 flex justify-center space-x-4">
-                    <!-- Bouton Modifier (vert) -->
-                    <button (click)="openModal(strategy)"
-                        class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
-                        Modifier
-                    </button>
+            <!-- Boutons d'action -->
+            <div class="mt-4 flex justify-center space-x-3">
+                <!-- Bouton Modifier (vert) -->
+                <button (click)="openModal(strategy)"
+                    class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-full p-2 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 5l3 3m0 0l-12 12H4v-4L16 5z" />
+                    </svg>
+                </button>
 
-                    <!-- Bouton Supprimer (rouge) -->
-                    <button (click)="deleteStrategy(strategy.reductionStrategyName)"
-                        class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
-                        Supprimer
-                    </button>
-                </div>
+                <!-- Bouton Supprimer (rouge) -->
+                <button (click)="deleteStrategy(strategy.reductionStrategyName)"
+                    class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-full p-2 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Message si aucune stratégie n'est trouvée -->
-    <div *ngIf="strategies.length === 0" class="text-center">
-        <p class="text-gray-500">Aucune stratégie de réduction du carbone trouvée.</p>
+    <div *ngIf="strategies.length === 0" class="text-center mt-10">
+        <p class="text-gray-500 text-lg">Aucune stratégie de réduction du carbone trouvée.</p>
     </div>
 
-    <!-- Modal for adding/updating strategies -->
-    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white shadow-lg rounded-lg p-6 w-96 md:w-96 hover:shadow-xl transition-shadow duration-300 text-start">
-            <h2 class="text-xl font-bold mb-4">{{ modalTitle }}</h2>
-            <form (ngSubmit)="submitStrategy()">
+    <!-- Boutons de pagination -->
+    <!-- Boutons de pagination -->
+    <div class="flex justify-center mt-4">
+        <!-- Left Chevron for Previous -->
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="px-3 py-1 bg-gray-300 rounded-l-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
 
-                <div class="mb-4">
-                    <label class="block mb-1">Nom de la stratégie:</label>
+        <!-- Boutons pour chaque page -->
+        <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="goToPage(i + 1)"
+            [ngClass]="{'bg-blue-600 text-white': currentPage === i + 1, 'bg-gray-300': currentPage !== i + 1}"
+            class="px-3 py-1">{{ i + 1 }}
+        </button>
+
+        <!-- Right Chevron for Next -->
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 bg-gray-300 rounded-r-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+    </div>
+
+
+    <!-- Modal pour ajout/modification de stratégie -->
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg mx-4 transition-shadow duration-300">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                {{ modalTitle }}
+            </h2>
+            <form (ngSubmit)="submitStrategy()">
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2">Nom de la stratégie:</label>
                     <input type="text" [(ngModel)]="currentStrategy.reductionStrategyName" name="strategyName" required
-                        [disabled]="modalTitle== 'Modifier la stratégie'"
-                        (input)="validateStrategyName()"
-                        class="border border-gray-300 rounded-md p-2 w-full" />
-                    <p *ngIf="invalidStrategyName" class="text-red-500 text-sm">Le nom de la stratégie ne doit pas contenir d'espaces ; nous vous recommandons d'utiliser des tirets '-' ou des underscores '_'.</p>
+                        [disabled]="modalTitle== 'Modifier la stratégie'" (input)="validateStrategyName()"
+                        class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <p *ngIf="invalidStrategyName" class="text-red-500 text-sm mt-1">Le nom de la stratégie ne doit pas
+                        contenir d'espaces ; nous vous recommandons d'utiliser des tirets '-' ou des underscores '_'.
+                    </p>
                 </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Coût (€):</label>
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2">Coût (€):</label>
                     <input type="number" [(ngModel)]="currentStrategy.hasCost" name="cost" required
-                        class="border border-gray-300 rounded-md p-2 w-full" />
+                        class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        (input)="validateCoutValue()" />
+                    <p *ngIf="invalidCoutValue" class="text-red-500 text-sm mt-1">Le valeur cout ne doit pas être
+                        vide et doit être un nombre positif.</p>
+
                 </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Impact (kgCO2):</label>
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2">Impact (kgCO2):</label>
                     <input type="number" [(ngModel)]="currentStrategy.hasImpactValue" name="impactValue" required
-                        class="border border-gray-300 rounded-md p-2 w-full" />
+                        class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    (input)="validateImpactValue()" />
+                    <p *ngIf="invalidImpactValue" class="text-red-500 text-sm mt-1">Le valeur cout ne doit pas être
+                        vide et doit être un nombre positif.</p>
+
                 </div>
                 <div class="flex justify-between">
                     <button type="submit"
-                        class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+                        class="bg-blue-600 text-white rounded-md px-6 py-2 hover:bg-blue-700 transition duration-300">
                         {{ getButtonLabel() }}
                     </button>
                     <button (click)="closeModal()" type="button"
-                        class="border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+                        class="bg-gray-300 text-gray-700 rounded-md px-6 py-2 hover:bg-gray-400 transition duration-300">
                         Annuler
                     </button>
                 </div>
             </form>
         </div>
     </div>
+
+
+    <!-- Section de filtrage pour les valeurs carbone -->
+    <div *ngIf="isFilterModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg mx-4 transition-shadow duration-300 relative">
+            <!-- Ajout de 'relative' pour positionner le bouton "X" -->
+            <button (click)="closeFilterModal()" class="absolute top-6 right-4 text-gray-600 hover:text-gray-900">
+                <!-- Icône "X" -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Filtrer par :</h3>
+
+            <div class="mb-4">
+                <label>
+                    <input type="radio" name="filterOption" [(ngModel)]="selectedFilter" value="none" />
+                    Aucun filtre
+                </label>
+                <label class="ml-4">
+                    <input type="radio" name="filterOption" [(ngModel)]="selectedFilter" value="cost" />
+                    Filtrer par Coût
+                </label>
+                <label class="ml-4">
+                    <input type="radio" name="filterOption" [(ngModel)]="selectedFilter" value="impact" />
+                    Filtrer par Impact
+                </label>
+            </div>
+
+            <!-- Champs de saisie pour la gamme de coût uniquement si selectedFilter est "cost" -->
+            <div *ngIf="selectedFilter === 'cost'" class="mt-2">
+                <label for="minCost">Coût minimum :</label>
+                <input type="number" id="minCost" [(ngModel)]="minCost" class="form-control" placeholder="Min" />
+
+                <label for="maxCost">Coût maximum :</label>
+                <input type="number" id="maxCost" [(ngModel)]="maxCost" class="form-control" placeholder="Max" />
+            </div>
+
+            <!-- Champs de saisie pour la gamme d'impact uniquement si selectedFilter est "impact" -->
+            <div *ngIf="selectedFilter === 'impact'" class="mt-2">
+                <label for="minImpact">Impact minimum :</label>
+                <input type="number" id="minImpact" [(ngModel)]="minImpact" class="form-control" placeholder="Min" />
+
+                <label for="maxImpact">Impact maximum :</label>
+                <input type="number" id="maxImpact" [(ngModel)]="maxImpact" class="form-control" placeholder="Max" />
+            </div>
+
+            <div class="flex justify-end mt-4">
+                <button (click)="applyFilter()"
+                    class="bg-blue-600 text-white rounded-md px-6 py-2 hover:bg-blue-700 transition duration-300">
+                    Appliquer le filtre
+                </button>
+                <button (click)="resetFilter()"
+                    class="ml-2 border border-gray-400 text-gray-600 hover:bg-gray-500 hover:text-white rounded-md px-6 py-2 transition duration-300">
+                    Réinitialiser
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
 </div>
