@@ -59,21 +59,22 @@
   <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
     <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md hover:shadow-xl transition-shadow duration-300">
       <h2 class="text-xl font-bold mb-4">
-        {{ editEnergy ? 'Modifier la consommation d\'énergie' : 'Ajouter une nouvelle consommation d\'énergie' }}
+        {{ editEnergy ? 'Mettre à jour la consommation d\'énergie' : 'Ajouter une nouvelle consommation d\'énergie' }}
       </h2>
-      <form (ngSubmit)="editEnergy ? submitUpdatedEnergy() : submitNewEnergy()">
 
+      <!-- Form for Adding New Energy Entry -->
+      <form *ngIf="!editEnergy" (ngSubmit)="submitNewEnergy()">
         <!-- Input for Consumption Name -->
         <div class="mb-4">
-          <label for="URI" class="block mb-1">Nom de la consommation :</label>
-          <input id="URI" type="text" [(ngModel)]="editEnergy ? newEnergy.URI : newEnergy.uri" name="uri" required
+          <label class="block mb-1">Nom de la consommation :</label>
+          <input type="text" [(ngModel)]="newEnergy.uri" name="uri" required
                  class="border border-gray-300 rounded-md p-2 w-full" />
         </div>
 
-        <!-- Input for Energy Value (number) -->
+        <!-- Input for Energy Value -->
         <div class="mb-4">
-          <label for="Value" class="block mb-1">Valeur d'énergie (kWh) :</label>
-          <input id="Value" type="number" [(ngModel)]="editEnergy ? newEnergy.Value :newEnergy.value" name="value" required
+          <label class="block mb-1">Valeur d'énergie (kWh) :</label>
+          <input type="number" [(ngModel)]="newEnergy.value" name="value" required
                  class="border border-gray-300 rounded-md p-2 w-full" />
         </div>
 
@@ -81,29 +82,61 @@
         <div class="mb-4">
           <label class="block mb-1">Plage de temps :</label>
           <div class="flex space-x-2">
-            <!-- Start Date -->
-            <input id="startDate" type="date" [(ngModel)]="editEnergy ? startDATEC : startDate" name="startDate" required
-                   class="border border-gray-300 rounded-md p-2 w-1/2" placeholder="Date de début" />
-
-            <!-- End Date -->
-            <input id="endDate" type="date" [(ngModel)]="editEnergy ? endDATEC :  endDate" name="endDate" required
-                   class="border border-gray-300 rounded-md p-2 w-1/2" placeholder="Date de fin" />
+            <input type="date" [(ngModel)]="startDate" name="startDate" required
+                   class="border border-gray-300 rounded-md p-2 w-1/2" />
+            <input type="date" [(ngModel)]="endDate" name="endDate" required
+                   class="border border-gray-300 rounded-md p-2 w-1/2" />
           </div>
         </div>
 
-        <!-- Action Buttons (Submit and Cancel) -->
+        <!-- Action Buttons -->
         <div class="flex justify-between">
-          <button type="submit"
-                  class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
-            {{ editEnergy ? 'Mettre à jour' : 'Ajouter' }}
+          <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+            Ajouter
           </button>
-          <button type="button" (click)="closeModal()"
-                  class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200">
+          <button type="button" (click)="closeModal()" class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200">
             Annuler
           </button>
         </div>
       </form>
 
+      <!-- Form for Updating Existing Energy Entry -->
+      <form *ngIf="editEnergy" (ngSubmit)="submitUpdatedEnergy()">
+        <!-- Input for Consumption Name -->
+        <div class="mb-4">
+          <label class="block mb-1">Nom de la consommation :</label>
+          <input type="text" [(ngModel)]="newEnergy.URI" name="uri" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <!-- Input for Energy Value -->
+        <div class="mb-4">
+          <label class="block mb-1">Valeur d'énergie (kWh) :</label>
+          <input type="number" [(ngModel)]="newEnergy.Value" name="value" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <!-- Date Range Selection for Time Frame -->
+        <div class="mb-4">
+          <label class="block mb-1">Plage de temps :</label>
+          <div class="flex space-x-2">
+            <input type="date" [(ngModel)]="startDATEC" name="startDate" required
+                   class="border border-gray-300 rounded-md p-2 w-1/2" />
+            <input type="date" [(ngModel)]="endDATEC" name="endDate" required
+                   class="border border-gray-300 rounded-md p-2 w-1/2" />
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between">
+          <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+            Mettre à jour
+          </button>
+          <button type="button" (click)="closeModal()" class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200">
+            Annuler
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

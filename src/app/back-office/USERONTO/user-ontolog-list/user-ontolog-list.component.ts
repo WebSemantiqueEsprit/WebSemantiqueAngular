@@ -72,15 +72,25 @@ export class UserOntologListComponent implements OnInit {
 
   // Handle the submission of the updated user entry
   submitUpdatedUser(): void {
-    const updatedUser = { ...this.newUser };
+    console.log(this.newUser )
+    const updatedUser = {
+      email: this.newUser.Email,
+      carbonFootprintGoal: this.newUser.CarbonFootprintGoal,
+      name:this.newUser.Name,
+    };
 
-    this.utilisateurService.updateUser(updatedUser.URI, updatedUser).subscribe(
+    this.utilisateurService.updateUser(this.newUser.URI, updatedUser).subscribe(
       (response) => {
         console.log('User updated successfully:', response);
         // Find the user entry in the list and update it
-        const index = this.users.findIndex(u => u.URI === updatedUser.URI);
+        const index = this.users.findIndex(u => u.URI === this.newUser.URI);
         if (index !== -1) {
-          this.users[index] = { ...updatedUser }; // Update locally
+          this.users[index] = {
+            Email: updatedUser.email,
+            Name:updatedUser.name,
+            CarbonFootprintGoal:updatedUser.carbonFootprintGoal,
+            URI:this.newUser.URI,
+          }; // Update locally
         }
         this.closeModal(); // Close the modal
       },

@@ -80,36 +80,47 @@ export class ConsommationEnergieListComponent implements OnInit {
   }
 
   // Open modal for updating an existing energy entry
+  // TypeScript Component Code
+
   updateEnergy(energy): void {
+    // Split time frame to set start and end dates for easier editing
     const [start, end] = energy.TimeFrame.split(" to ");
     this.startDATEC = start.trim();
     this.endDATEC = end.trim();
 
+    // Prepare newEnergy object with the current values for editing
     this.newEnergy = {
       URI: energy.URI,
       Value: energy.Value,
       TimeFrame: `${this.startDATEC} to ${this.endDATEC}`
     };
+
+    console.log(this.newEnergy)
+    // Set flags to indicate edit mode and open the modal
     this.editEnergy = true;
     this.isModalOpen = true;
   }
 
   submitUpdatedEnergy(): void {
+
+    console.log("Value :", this.newEnergy.Value);
+    console.log("Date  :", `${this.startDATEC} to ${this.endDATEC}`);
     const updatedEnergy = {
-      URI: this.newEnergy.URI,
-      Value: this.newEnergy.Value,
-      TimeFrame: `${this.startDATEC} to ${this.endDATEC}`
+      value: this.newEnergy.Value, // Make sure `Value` is correct
+      timeFrame: `${this.startDATEC} to ${this.endDATEC}`
     };
 
-    this.connsamationEnergieService.updateEnergieConsumption(updatedEnergy.URI, updatedEnergy).subscribe(
+    console.log("Updated Energy Data:", updatedEnergy); // Verify updated data before sending
+
+    this.connsamationEnergieService.updateEnergieConsumption(this.newEnergy.URI, updatedEnergy).subscribe(
       (response) => {
         console.log('Energy entry updated successfully:', response);
-        const index = this.Energy.findIndex(e => e.URI === updatedEnergy.URI);
+        const index = this.Energy.findIndex(e => e.URI === this.newEnergy.URI);
         if (index !== -1) {
           const EnergyData={
-            uri: updatedEnergy.URI,
-            value:this.newEnergy.value,
-            timeFrame:this.newEnergy.timeFrame
+            URI: this.newEnergy.URI,
+            Value:updatedEnergy.value,
+            TimeFrame:updatedEnergy.timeFrame
           }
           this.Energy[index] = EnergyData;
         }
@@ -120,6 +131,9 @@ export class ConsommationEnergieListComponent implements OnInit {
       }
     );
   }
+
+
+
 
 
   deleteEnergy(energy: any): void {
