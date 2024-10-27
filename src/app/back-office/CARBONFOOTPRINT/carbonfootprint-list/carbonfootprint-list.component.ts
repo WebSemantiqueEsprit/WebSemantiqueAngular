@@ -1,7 +1,7 @@
 // carbonfootprint-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CarbonFootprintService } from 'src/app/service/carbonfootprint.service';
- 
+
 
 @Component({
   selector: 'app-carbonfootprint-list',
@@ -14,6 +14,7 @@ export class CarbonfootprintListComponent implements OnInit {
   editFootprint: any = null; // To store footprint being edited
   isModalOpen = false; // Track the modal state
   invalidStrategyName = false; // Flag for strategy name validity
+  searchValue: string = ''; // Nouvelle propriété pour stocker la valeur de recherche
 
   constructor(private carbonFootprintService: CarbonFootprintService) { }
 
@@ -46,6 +47,19 @@ export class CarbonfootprintListComponent implements OnInit {
     this.editFootprint = null; // Reset edit footprint
   }
 
+
+  searchFootprint(): void {
+    this.carbonFootprintService.searchCarbonFootprint(this.searchValue).subscribe(
+      (data) => {
+        this.carbonFootprints = data.carbonFootprints;
+      },
+      (error) => {
+        console.error('Erreur lors de la recherche', error);
+      }
+    );
+  }
+
+
   // Handle the submission of a new footprint
   submitNewFootprint(): void {
 
@@ -58,10 +72,10 @@ export class CarbonfootprintListComponent implements OnInit {
     this.carbonFootprintService.addCarbonFootprint(this.newFootprint).subscribe(
       (response) => {
         console.log('Footprint added successfully:', response);
-        const footprintdata={
-          footprintName : this.newFootprint.footprintName,
-          hasCarbonValue:this.newFootprint.carbonValue,
-          hasType:this.newFootprint.type
+        const footprintdata = {
+          footprintName: this.newFootprint.footprintName,
+          hasCarbonValue: this.newFootprint.carbonValue,
+          hasType: this.newFootprint.type
         }
         this.carbonFootprints.push({ ...footprintdata }); // Add to list without reload
         this.isModalOpen = false; // Close the modal
@@ -98,10 +112,10 @@ export class CarbonfootprintListComponent implements OnInit {
         // Find the footprint in the list and update it
         const index = this.carbonFootprints.findIndex(f => f.footprintName === updatedFootprint.footprintName);
         if (index !== -1) {
-          const footprintdata={
-            footprintName : updatedFootprint.footprintName,
-            hasCarbonValue:updatedFootprint.carbonValue,
-            hasType:this.newFootprint.type
+          const footprintdata = {
+            footprintName: updatedFootprint.footprintName,
+            hasCarbonValue: updatedFootprint.carbonValue,
+            hasType: this.newFootprint.type
           }
           this.carbonFootprints[index] = footprintdata; // Update locally
         }

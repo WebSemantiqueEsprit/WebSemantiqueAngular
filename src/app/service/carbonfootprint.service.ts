@@ -27,5 +27,9 @@ export class CarbonFootprintService {
   updateCarbonFootprint(footprintName: string, footprint: any): Observable<any> {
     return this.http.put(`http://localhost:8082/carbonfootprints/${footprintName}`, footprint, { responseType: 'text' });
   }
+
+  searchCarbonFootprint(value: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/search?value=${value}`);
+  }
   
 }
