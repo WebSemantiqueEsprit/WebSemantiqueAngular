@@ -21,6 +21,7 @@ const routes: Routes = [
       {path:"connsamationEnergie",loadChildren:()=>   import('./ConsommationENERGIE/consommation-energie.module').then(m=>m.ConsommationEnergieModule)},
       { path: "energy-efficiency", loadChildren: () => import('./EnergiyEfficiency/energy-efficiency.module').then(m => m.EnergyEfficiencyModule) },
       {path: "behavior-pattern", loadChildren: () => import('./BehaviorPatterns/behavior-pattern.module').then(m => m.BehaviorPatternModule)},
+      {path:"cabonreductionstrategy",loadChildren:()=>   import('./CABONREDUCTIONSTRATEGY/cabonreductionstrategy.module').then(m=>m.cabonreductionstrategyModule)},
 
       {path:"usersontolog",loadChildren:()=>   import('./USERONTO/user-ontolog.module').then(m=>m.UserOntologModule)},
       {path:"dashboard", component:HomeBackComponent}

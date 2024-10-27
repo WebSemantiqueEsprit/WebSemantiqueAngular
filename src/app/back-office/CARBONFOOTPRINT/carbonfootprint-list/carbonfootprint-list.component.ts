@@ -1,6 +1,7 @@
 // carbonfootprint-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CarbonFootprintService } from 'src/app/service/carbonfootprint.Service';
+import { CarbonFootprintService } from 'src/app/service/carbonfootprint.service';
+ 
 
 @Component({
   selector: 'app-carbonfootprint-list',
@@ -12,6 +13,7 @@ export class CarbonfootprintListComponent implements OnInit {
   newFootprint: any = { footprintName: '', carbonValue: '', type: '' }; // Object for the new footprint
   editFootprint: any = null; // To store footprint being edited
   isModalOpen = false; // Track the modal state
+  invalidStrategyName = false; // Flag for strategy name validity
 
   constructor(private carbonFootprintService: CarbonFootprintService) { }
 
@@ -32,6 +34,11 @@ export class CarbonfootprintListComponent implements OnInit {
     );
   }
 
+  validateStrategyName(): void {
+    const strategyNamePattern = /^[a-zA-Z0-9-_]+$/; // Regex pattern to allow alphanumeric characters, underscores and dashes
+    this.invalidStrategyName = !strategyNamePattern.test(this.newFootprint.footprintName);
+  }
+
   // Open modal to add a new footprint
   addFootprint(): void {
     this.isModalOpen = true; // Open the modal
@@ -41,6 +48,13 @@ export class CarbonfootprintListComponent implements OnInit {
 
   // Handle the submission of a new footprint
   submitNewFootprint(): void {
+
+    this.validateStrategyName(); // Validate before submission
+    if (this.invalidStrategyName) {
+      return; // Prevent submission if invalid
+    }
+
+
     this.carbonFootprintService.addCarbonFootprint(this.newFootprint).subscribe(
       (response) => {
         console.log('Footprint added successfully:', response);
