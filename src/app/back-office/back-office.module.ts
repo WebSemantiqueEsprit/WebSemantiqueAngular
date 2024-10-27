@@ -11,6 +11,8 @@ import {HttpClientModule} from '@angular/common/http' ;
 import { FormsModule } from '@angular/forms';
 import { UniversiteModule } from './universite/universite.module';
 import { FoyerModule } from './foyer/foyer.module';
+import {EnergyStorageModule} from "./energy-storage/energy-storage.module";
+import {OptimizationSolutionModule} from "./optimization-solution/optimization-solution.module";
 
 
 
@@ -33,6 +35,8 @@ import { FoyerModule } from './foyer/foyer.module';
     BlocModule,
     HttpClientModule,
     FormsModule,
+    EnergyStorageModule,
+    OptimizationSolutionModule
   ]
 })
 export class BackOfficeModule { }

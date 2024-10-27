@@ -16,6 +16,8 @@ const routes: Routes = [
       {path:"reservation",loadChildren:()=>   import('./reservation/reservation.module').then(m=>m.ReservationModule)},
 
       {path:"carbonfootprint",loadChildren:()=>   import('./CARBONFOOTPRINT/carbonfootprint.module').then(m=>m.carbonfootprintModule)},
+      {path:"storage",loadChildren:()=>   import('./energy-storage/energy-storage.module').then(m=>m.EnergyStorageModule)},
+      {path:"solution",loadChildren:()=>   import('./optimization-solution/optimization-solution.module').then(m=>m.OptimizationSolutionModule)},
 
 
       {path:"dashboard", component:HomeBackComponent}
