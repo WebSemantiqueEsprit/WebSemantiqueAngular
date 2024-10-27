@@ -1,6 +1,6 @@
 // carbonfootprint.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -31,5 +31,17 @@ export class CarbonFootprintService {
   searchCarbonFootprint(value: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/search?value=${value}`);
   }
+
+    // Fonction de filtrage des empreintes carbone par valeurs minimales et maximales
+    filterCarbonFootprint(minValue: number | null, maxValue: number | null): Observable<any> {
+      let params = new HttpParams();
+      if (minValue !== null) {
+        params = params.set('minValue', minValue.toString());
+      }
+      if (maxValue !== null) {
+        params = params.set('maxValue', maxValue.toString());
+      }
+      return this.http.get<any>(`${this.apiUrl}/searchByRange`, { params });
+    }
   
 }

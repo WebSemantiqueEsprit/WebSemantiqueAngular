@@ -1,0 +1,33 @@
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.pagination-button {
+    background-color: #3b82f6; /* Couleur bleue */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Boutons ronds */
+    width: 48px; /* Largeur du bouton */
+    height: 48px; /* Hauteur du bouton */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem; /* Taille de la flèche */
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-button:hover {
+    background-color: #2563eb; /* Couleur bleue plus foncée */
+    transform: scale(1.05);
+}
+
+.pagination-info {
+    margin: 0 1rem;
+    font-size: 1rem;
+    color: #4b5563; /* Couleur du texte grise */
+    font-weight: bold; /* Mettre le texte en gras */
+}

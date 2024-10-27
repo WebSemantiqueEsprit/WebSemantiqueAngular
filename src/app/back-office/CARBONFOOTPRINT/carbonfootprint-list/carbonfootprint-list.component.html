@@ -1,41 +1,55 @@
-<div class="container mx-auto mt-12 px-4">
+<div class="container mx-auto mt-12 px-5">
 
     <!-- Titre et description -->
     <h3 class="text-4xl font-bold mb-4 text-center text-gray-800">
         Empreinte Carbone
     </h3>
-        <!-- Bouton pour ajouter une nouvelle empreinte carbone avec icône -->
-        <div class="text-center mb-8">
-            <button (click)="addFootprint()"
-                class="bg-blue-600 text-white rounded-full mx-auto px-2 py-2 shadow-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition duration-300 transform hover:scale-105">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-            </button>
-        </div>
+    <!-- Bouton pour ajouter une nouvelle empreinte carbone avec icône -->
+    <div class="text-center mb-8">
+        <button (click)="addFootprint()"
+            class="bg-blue-600 text-white rounded-full mx-auto px-2 py-2 shadow-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+        </button>
+    </div>
     <p class="text-lg text-gray-600 mb-10 text-center max-w-5xl mx-auto leading-relaxed">
         L'empreinte carbone désigne la quantité totale de gaz à effet de serre émis directement ou indirectement par les
-        activités humaines, comme l'utilisation des combustibles fossiles, la production industrielle, ou encore les transports.
+        activités humaines, comme l'utilisation des combustibles fossiles, la production industrielle, ou encore les
+        transports.
     </p>
-
-
 
     <!-- Barre de recherche -->
     <div class="flex justify-center mb-10">
         <div class="flex w-full max-w-md">
+            <!-- Champ de recherche -->
             <input type="text" [(ngModel)]="searchValue" placeholder="Rechercher par type ou nom"
-                   class="border border-gray-300 rounded-l-md p-3 w-full focus:outline-none">
+                class="border border-gray-300 rounded-l-md p-3 w-full focus:outline-none">
+
+            <!-- Bouton de recherche -->
             <button (click)="searchFootprint()"
-                    class="bg-blue-600 text-white px-6 rounded-r-md shadow hover:bg-blue-700 transition duration-300">
+                class="bg-blue-600 text-white px-4 rounded-r-none shadow hover:bg-blue-700 transition duration-300">
                 Rechercher
+            </button>
+
+            <!-- Bouton de filtrage ouvre la modale -->
+            <button (click)="openFilterModal()"
+                class="bg-gray-300 text-gray-700 px-4 rounded-r-md shadow hover:bg-gray-400 transition duration-300 flex items-center justify-center">
+                <!-- Icône de filtre -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-5.414 5.414a1 1 0 00-.293.707v4.586a1 1 0 01-.293.707l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 01-.293-.707v-4.586a1 1 0 00-.293-.707L3.293 6.707A1 1 0 013 6V4z" />
+                </svg>
             </button>
         </div>
     </div>
 
     <!-- Liste des empreintes carbone -->
     <div *ngIf="carbonFootprints.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div *ngFor="let footprint of carbonFootprints"
-             class="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 text-center">
+        <div *ngFor="let footprint of displayedFootprints"
+            class="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 text-center">
             <p class="font-semibold text-lg mb-2 text-gray-800">{{ footprint.footprintName }}</p>
             <p class="text-gray-600"><strong>Valeur carbone:</strong> {{ footprint.hasCarbonValue }} kgCO2</p>
             <p class="text-gray-600"><strong>Type:</strong> {{ footprint.hasType }}</p>
@@ -46,9 +60,9 @@
                 <button (click)="updateFootprint(footprint)"
                     class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-full p-2 transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                         class="w-5 h-5">
+                        class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M16 5l3 3m0 0l-12 12H4v-4L16 5z" />
+                            d="M16 5l3 3m0 0l-12 12H4v-4L16 5z" />
                     </svg>
                 </button>
 
@@ -56,9 +70,9 @@
                 <button (click)="deleteFootprint(footprint)"
                     class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-full p-2 transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                         class="w-5 h-5">
+                        class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12" />
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -70,42 +84,110 @@
         <p class="text-gray-500 text-lg">Aucune empreinte carbone trouvée.</p>
     </div>
 
-    <!-- Modal pour ajout/modification d'empreinte carbone -->
-    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg mx-4 transition-shadow duration-300">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800">
-                {{ editFootprint ? 'Modifier l\'empreinte carbone' : 'Ajouter une nouvelle empreinte carbone' }}
-            </h2>
-            <form (ngSubmit)="editFootprint ? submitUpdatedFootprint() : submitNewFootprint()">
-                <div class="mb-5">
-                    <label class="block text-gray-700 mb-2">Nom de l'empreinte carbone:</label>
-                    <input type="text" [(ngModel)]="newFootprint.footprintName" name="footprintName" required [disabled]="editFootprint"
-                           class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                           (input)="validateStrategyName()" />
-                    <p *ngIf="invalidStrategyName" class="text-red-500 text-sm mt-1">Le nom de la stratégie ne doit pas contenir d'espaces ; nous vous recommandons d'utiliser des tirets '-' ou des underscores '_'.</p>
+
+<!-- Modal pour ajout/modification d'empreinte carbone -->
+<div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg mx-4 transition-shadow duration-300">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">
+            {{ editFootprint ? 'Modifier l\'empreinte carbone' : 'Ajouter une nouvelle empreinte carbone' }}
+        </h2>
+        <form (ngSubmit)="editFootprint ? submitUpdatedFootprint() : submitNewFootprint()">
+            <div class="mb-5">
+                <label class="block text-gray-700 mb-2">Nom de l'empreinte carbone:</label>
+                <input type="text" [(ngModel)]="newFootprint.footprintName" name="footprintName" required
+                    [disabled]="editFootprint"
+                    class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    (input)="validateStrategyName()" />
+                <p *ngIf="invalidStrategyName" class="text-red-500 text-sm mt-1">Le nom de la stratégie ne doit pas
+                    contenir d'espaces ; nous vous recommandons d'utiliser des tirets '-' ou des underscores '_'.
+                </p>
+            </div>
+            <div class="mb-5">
+                <label class="block text-gray-700 mb-2">Valeur carbone (kgCO2):</label>
+                <input type="number" [(ngModel)]="newFootprint.carbonValue" name="carbonValue" required
+                    class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    (input)="validateCarbonValue()" />
+                <p *ngIf="invalidCarbonValue" class="text-red-500 text-sm mt-1">La valeur carbone ne doit pas être vide et doit être un nombre positif.</p>
+            </div>
+            <div class="mb-5">
+                <label class="block text-gray-700 mb-2">Type:</label>
+                <input type="text" [(ngModel)]="newFootprint.type" name="type" required
+                    class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    (input)="validateType()" />
+                <p *ngIf="invalidType" class="text-red-500 text-sm mt-1">Le type ne doit pas être vide.</p>
+            </div>
+            <div class="flex justify-between">
+                <button type="submit"
+                    class="bg-blue-600 text-white rounded-md px-6 py-2 hover:bg-blue-700 transition duration-300">
+                    {{ editFootprint ? 'Mettre à jour' : 'Ajouter' }}
+                </button>
+                <button type="button" (click)="closeModal()"
+                    class="bg-gray-300 text-gray-700 rounded-md px-6 py-2 hover:bg-gray-400 transition duration-300">
+                    Annuler
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <!-- Pagination -->
+    <div class="pagination-container mt-4">
+        <button (click)="previousPage()" class="pagination-button" [disabled]="currentPage === 1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg> <!-- Left Chevron -->
+        </button>
+
+        <span class="pagination-info">Page {{ currentPage }} sur {{ totalFootprints > 0 ? getTotalPages() : 1 }}</span>
+
+        <button (click)="nextPage()" class="pagination-button" [disabled]="currentPage === getTotalPages()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg> <!-- Right Chevron -->
+        </button>
+    </div>
+
+
+    <!-- Section de filtrage pour les valeurs carbone -->
+    <div *ngIf="isFilterModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg mx-4 transition-shadow duration-300 relative">
+            <!-- Ajout de 'relative' pour positionner le bouton "X" -->
+            <button (click)="closeFilterModal()" class="absolute top-6 right-4 text-gray-600 hover:text-gray-900">
+                <!-- Icône "X" -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Filtrer par valeur carbone</h3>
+            <div class="flex items-center space-x-4">
+                <div class="flex-1">
+                    <label class="block text-gray-700 mb-2" for="minValue">Valeur minimale (kgCO2):</label>
+                    <input type="number" [(ngModel)]="minCarbonValue" id="minValue" placeholder="Minimum"
+                        class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
-                <div class="mb-5">
-                    <label class="block text-gray-700 mb-2">Valeur carbone (kgCO2):</label>
-                    <input type="number" [(ngModel)]="newFootprint.carbonValue" name="carbonValue" required
-                           class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <div class="flex-1">
+                    <label class="block text-gray-700 mb-2" for="maxValue">Valeur maximale (kgCO2):</label>
+                    <input type="number" [(ngModel)]="maxCarbonValue" id="maxValue" placeholder="Maximum"
+                        class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
-                <div class="mb-5">
-                    <label class="block text-gray-700 mb-2">Type:</label>
-                    <input type="text" [(ngModel)]="newFootprint.type" name="type" required
-                           class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-                <div class="flex justify-between">
-                    <button type="submit"
-                            class="bg-blue-600 text-white rounded-md px-6 py-2 hover:bg-blue-700 transition duration-300">
-                        {{ editFootprint ? 'Mettre à jour' : 'Ajouter' }}
-                    </button>
-                    <button (click)="closeModal()" type="button"
-                            class="border border-gray-400 text-gray-600 hover:bg-gray-500 hover:text-white rounded-md px-6 py-2 transition duration-300">
-                        Annuler
-                    </button>
-                </div>
-            </form>
+            </div>
+            <div class="flex justify-end mt-4">
+                <button (click)="applyFilter()"
+                    class="bg-blue-600 text-white rounded-md px-6 py-2 hover:bg-blue-700 transition duration-300">
+                    Appliquer le filtre
+                </button>
+                <button (click)="clearFilter()"
+                    class="ml-2 border border-gray-400 text-gray-600 hover:bg-gray-500 hover:text-white rounded-md px-6 py-2 transition duration-300">
+                    Réinitialiser
+                </button>
+            </div>
         </div>
     </div>
+
+
+
+
 
 </div>
