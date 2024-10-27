@@ -60,30 +60,63 @@
       <h2 class="text-xl font-bold mb-4">
         {{ editUser ? 'Modifier l\'utilisateur' : 'Ajouter un nouvel utilisateur' }}
       </h2>
-      <form (ngSubmit)="editUser ? submitUpdatedUser() : submitNewUser()">
+      <form *ngIf="!editUser" (ngSubmit)="submitNewUser()">
 
         <div class="mb-4">
           <label for="name" class="block mb-1">Name :</label>
-          <input id="name" type="text" [(ngModel)]="editUser ? newUser.Name : newUser.name" name="name" required
+          <input  type="text" [(ngModel)]="newUser.name" name="name" required
                  class="border border-gray-300 rounded-md p-2 w-full" />
         </div>
 
         <div class="mb-4">
           <label for="email" class="block mb-1">Email :</label>
-          <input id="email" type="email" [(ngModel)]="editUser ? newUser.Email : newUser.email" name="email" required
+          <input  type="email" [(ngModel)]="newUser.email" name="email" required
                  class="border border-gray-300 rounded-md p-2 w-full" />
         </div>
 
         <div class="mb-4">
           <label for="carbonFootprintGoal" class="block mb-1">Objectif Empreinte Carbone (kg CO2) :</label>
-          <input id="carbonFootprintGoal" type="number" [(ngModel)]="editUser ? newUser.CarbonFootprintGoal : newUser.carbonFootprintGoal" name="carbonFootprintGoal" required
+          <input  type="number" [(ngModel)]=" newUser.carbonFootprintGoal" name="carbonFootprintGoal" required
                  class="border border-gray-300 rounded-md p-2 w-full" />
         </div>
 
         <div class="flex justify-between">
           <button type="submit"
                   class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
-            {{ editUser ? 'Mettre à jour' : 'Ajouter' }}
+            {{ 'Ajouter' }}
+          </button>
+          <button type="button" (click)="closeModal()"
+                  class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200">
+            Annuler
+          </button>
+        </div>
+      </form>
+
+
+      <form  *ngIf="editUser"  (ngSubmit)="submitUpdatedUser() ">
+
+        <div class="mb-4">
+          <label for="name" class="block mb-1">Name :</label>
+          <input id="name" type="text" [(ngModel)]="newUser.Name " name="name" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block mb-1">Email :</label>
+          <input id="email" type="email" [(ngModel)]="newUser.Email " name="email" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <div class="mb-4">
+          <label for="carbonFootprintGoal" class="block mb-1">Objectif Empreinte Carbone (kg CO2) :</label>
+          <input id="carbonFootprintGoal" type="number" [(ngModel)]=" newUser.CarbonFootprintGoal " name="carbonFootprintGoal" required
+                 class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+
+        <div class="flex justify-between">
+          <button type="submit"
+                  class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+            {{'Mettre à jour'  }}
           </button>
           <button type="button" (click)="closeModal()"
                   class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition duration-200">
