@@ -11,6 +11,8 @@ import {HttpClientModule} from '@angular/common/http' ;
 import { FormsModule } from '@angular/forms';
 import { UniversiteModule } from './universite/universite.module';
 import { FoyerModule } from './foyer/foyer.module';
+import {EnergyStorageModule} from "./energy-storage/energy-storage.module";
+import {OptimizationSolutionModule} from "./optimization-solution/optimization-solution.module";
 import { ConsommationEnergieListComponent } from './ConsommationENERGIE/consommation-energie-list/consommation-energie-list.component';
 import { UserOntologListComponent } from './USERONTO/user-ontolog-list/user-ontolog-list.component';
 
@@ -36,6 +38,8 @@ import { UserOntologListComponent } from './USERONTO/user-ontolog-list/user-onto
     BlocModule,
     HttpClientModule,
     FormsModule,
+    EnergyStorageModule,
+    OptimizationSolutionModule
   ]
 })
 export class BackOfficeModule { }

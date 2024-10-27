@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BackOfficeComponent } from './back-office.component';
 import { HomeBackComponent } from './home-back/home-back.component';
-import { AdminGuard } from "../helper/admin.guard";
+import {AdminGuard} from "../helper/admin.guard";
 
 const routes: Routes = [
   {path: '',
@@ -16,6 +16,8 @@ const routes: Routes = [
       {path:"reservation",loadChildren:()=>   import('./reservation/reservation.module').then(m=>m.ReservationModule)},
 
       {path:"carbonfootprint",loadChildren:()=>   import('./CARBONFOOTPRINT/carbonfootprint.module').then(m=>m.carbonfootprintModule)},
+      {path:"storage",loadChildren:()=>   import('./energy-storage/energy-storage.module').then(m=>m.EnergyStorageModule)},
+      {path:"solution",loadChildren:()=>   import('./optimization-solution/optimization-solution.module').then(m=>m.OptimizationSolutionModule)},
       {path:"connsamationEnergie",loadChildren:()=>   import('./ConsommationENERGIE/consommation-energie.module').then(m=>m.ConsommationEnergieModule)},
       { path: "energy-efficiency", loadChildren: () => import('./EnergiyEfficiency/energy-efficiency.module').then(m => m.EnergyEfficiencyModule) },
       {path: "behavior-pattern", loadChildren: () => import('./BehaviorPatterns/behavior-pattern.module').then(m => m.BehaviorPatternModule)},
