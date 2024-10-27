@@ -1,0 +1,88 @@
+<div class="container mt-20">
+    <!-- Définition de la stratégie de réduction du carbone -->
+    <h3 class="text-3xl font-bold mb-6 text-center">
+        Stratégies de Réduction du Carbone
+    </h3>
+    <p class="text-lg text-gray-600 mb-8 text-center">
+        Les stratégies de réduction du carbone visent à minimiser les émissions de gaz à effet de serre à travers
+        diverses actions et innovations.
+    </p>
+
+    <!-- Bouton pour ajouter une nouvelle stratégie -->
+    <div class="text-center mb-6">
+        <button (click)="openModal()"
+            class="bg-blue-500 text-white rounded-md px-6 py-2 hover:bg-blue-600 transition duration-200">
+            Ajouter une nouvelle stratégie de réduction
+        </button>
+    </div>
+
+    <!-- Liste des stratégies de réduction -->
+    <div *ngIf="strategies.length > 0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div *ngFor="let strategy of strategies"
+                class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 text-center">
+                <p><strong>Nom de la stratégie :</strong> {{ strategy.reductionStrategyName }}</p>
+                <p><strong>Coût :</strong> {{ strategy.hasCost }} €</p>
+                <p><strong>Impact :</strong> {{ strategy.hasImpactValue }} kgCO2</p>
+
+                <!-- Boutons pour mettre à jour ou supprimer -->
+                <div class="mt-4 flex justify-center space-x-4">
+                    <!-- Bouton Modifier (vert) -->
+                    <button (click)="openModal(strategy)"
+                        class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+                        Modifier
+                    </button>
+
+                    <!-- Bouton Supprimer (rouge) -->
+                    <button (click)="deleteStrategy(strategy.reductionStrategyName)"
+                        class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message si aucune stratégie n'est trouvée -->
+    <div *ngIf="strategies.length === 0" class="text-center">
+        <p class="text-gray-500">Aucune stratégie de réduction du carbone trouvée.</p>
+    </div>
+
+    <!-- Modal for adding/updating strategies -->
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white shadow-lg rounded-lg p-6 w-96 md:w-96 hover:shadow-xl transition-shadow duration-300 text-start">
+            <h2 class="text-xl font-bold mb-4">{{ modalTitle }}</h2>
+            <form (ngSubmit)="submitStrategy()">
+
+                <div class="mb-4">
+                    <label class="block mb-1">Nom de la stratégie:</label>
+                    <input type="text" [(ngModel)]="currentStrategy.reductionStrategyName" name="strategyName" required
+                        [disabled]="modalTitle== 'Modifier la stratégie'"
+                        (input)="validateStrategyName()"
+                        class="border border-gray-300 rounded-md p-2 w-full" />
+                    <p *ngIf="invalidStrategyName" class="text-red-500 text-sm">Le nom de la stratégie ne doit pas contenir d'espaces ; nous vous recommandons d'utiliser des tirets '-' ou des underscores '_'.</p>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Coût (€):</label>
+                    <input type="number" [(ngModel)]="currentStrategy.hasCost" name="cost" required
+                        class="border border-gray-300 rounded-md p-2 w-full" />
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Impact (kgCO2):</label>
+                    <input type="number" [(ngModel)]="currentStrategy.hasImpactValue" name="impactValue" required
+                        class="border border-gray-300 rounded-md p-2 w-full" />
+                </div>
+                <div class="flex justify-between">
+                    <button type="submit"
+                        class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+                        {{ getButtonLabel() }}
+                    </button>
+                    <button (click)="closeModal()" type="button"
+                        class="border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+                        Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

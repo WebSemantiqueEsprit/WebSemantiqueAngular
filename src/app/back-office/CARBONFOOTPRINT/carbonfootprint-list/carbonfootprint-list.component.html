@@ -68,12 +68,14 @@
             <form (ngSubmit)="editFootprint ? submitUpdatedFootprint() : submitNewFootprint()">
                 <div class="mb-4">
                     <label class="block mb-1">Nom de l'empreinte carbone:</label>
-                    <input type="text" [(ngModel)]="newFootprint.footprintName"  name="footprintName" required
-                        class="border border-gray-300 rounded-md p-2 w-full" />
+                    <input type="text" [(ngModel)]="newFootprint.footprintName"  name="footprintName" required [disabled]="editFootprint"
+                        class="border border-gray-300 rounded-md p-2 w-full" 
+                         (input)="validateStrategyName()" />
+                    <p *ngIf="invalidStrategyName" class="text-red-500 text-sm">Le nom de la stratégie ne doit pas contenir d'espaces ; nous vous recommandons d'utiliser des tirets '-' ou des underscores '_'.</p>
                 </div>
                 <div class="mb-4">
                     <label class="block mb-1">Valeur carbone (kgCO2):</label>
-                    <input type="number" [(ngModel)]="newFootprint.carbonValue" name="carbonValue" required
+                    <input type="number" [(ngModel)]="newFootprint.carbonValue" name="carbonValue" required  
                         class="border border-gray-300 rounded-md p-2 w-full" />
                 </div>
                 <div class="mb-4">
