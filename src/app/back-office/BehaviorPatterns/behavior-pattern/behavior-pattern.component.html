@@ -1,8 +1,10 @@
 <div class="behavior-patterns" style="max-width: 800px; margin: 0 auto; padding: 20px;">
-  <h2>Behavior Patterns</h2>
-
+  <div class="d-flex mb-3">
+    <button class="btn btn-add me-2" style="margin-left: 440px;" (click)="toggleAddForm()">Add New Behavior</button>
+    <button class="btn-filter" (click)="toggleFilterForm()">Filter Behavior</button>
+  </div>
   <!-- Add New Behavior Pattern Form -->
-  <section class="form-section">
+  <section class="form-section" *ngIf="showAddForm">
     <h3>Add New Behavior Pattern</h3>
     <div class="form-group">
       <label for="newBehaviorPatternName">Behavior Pattern Name:</label>
@@ -38,6 +40,28 @@
     <button class="btn-cancel" (click)="updatedPattern = {}">Cancel</button>
   </section>
 
+
+
+  <section class="form-section">
+    <div class="form-inline">
+      <div class="form-group">
+        <input [(ngModel)]="searchUsagePattern" placeholder="Usage Pattern" />
+        <input [(ngModel)]="minReductionPotential" type="number" placeholder="Min Reduction Potential" />
+      </div>
+      <button class="btn-search" style="width: 100%" (click)="searchBehaviorPatterns()">Search</button>
+    </div>
+  </section>
+
+
+  <section class="form-section" *ngIf="showFilterForm">
+
+    <h2>Filter Behavior Patterns</h2>
+    <div class="form-group">
+    <input class="form-group" [(ngModel)]="filterUsagePattern" placeholder="Usage Pattern" />
+    <input class="form-group" [(ngModel)]="maxReductionPotential" type="number" placeholder="Max Reduction Potential" />
+    </div>
+    <button class="btn-filter" style="width: 100%"(click)="filterBehaviorPatterns()">Filter</button>
+  </section>
   <!-- Behavior Patterns List -->
   <section>
     <h3>Behavior Patterns List</h3>
@@ -56,20 +80,24 @@
         <td>{{ pattern.hasUsagePattern }}</td>
         <td>{{ pattern.hasReductionPotential }}</td>
         <td>
-          <button class="btn-edit" (click)="editBehaviorPattern(pattern)">Edit</button>
+          <button class="btn-edit"  style="margin-right: 20px" (click)="editBehaviorPattern(pattern)">Edit</button>
           <button class="btn-delete" (click)="deleteBehaviorPattern(pattern.behaviorPatternName)">Delete</button>
         </td>
       </tr>
       </tbody>
     </table>
   </section>
+
+
+
 </div>
 
 <style>
-  .behavior-patterns {
+  .energy-efficiency {
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
   }
 
   .form-section {
@@ -118,6 +146,14 @@
     background-color: #f44336; /* Red */
   }
 
+  .btn-search {
+    background-color: #FFC107; /* Yellow */
+  }
+
+  .btn-filter {
+    background-color: #2196F3; /* Blue */
+  }
+
   .btn-edit {
     background-color: #FFC107; /* Yellow */
   }
@@ -148,3 +184,4 @@
     background-color: #f9f9f9;
   }
 </style>
+
