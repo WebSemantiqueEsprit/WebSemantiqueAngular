@@ -31,3 +31,11 @@
     color: #4b5563; /* Couleur du texte grise */
     font-weight: bold; /* Mettre le texte en gras */
 }
+/* styles.css ou le fichier de style associé */
+.valid-relations {
+    color: green; /* Couleur pour les relations valides */
+}
+
+.no-valid-relations {
+    color: red; /* Couleur pour les messages d'absence de relations */
+}

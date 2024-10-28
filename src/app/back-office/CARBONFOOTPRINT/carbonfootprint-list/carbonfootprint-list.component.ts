@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CarbonReductionStrategyService } from 'src/app/service/cabonreductionstrategy.service';
 import { CarbonFootprintService } from 'src/app/service/carbonfootprint.service';
 
 @Component({
@@ -26,11 +27,16 @@ export class CarbonfootprintListComponent implements OnInit {
   invalidCarbonValue: boolean = false; // Flag for carbon value validity
   invalidType: boolean = false; // Flag for type validity
 
-  constructor(private carbonFootprintService: CarbonFootprintService) { }
+
+
+  constructor(private carbonFootprintService: CarbonFootprintService, private cdr: ChangeDetectorRef, private carbonReductionStrategyService: CarbonReductionStrategyService) { }
 
   ngOnInit(): void {
     this.getallfootprint();
+    this.getalldispoRelations();
+    this.getAllStrategies();
   }
+
 
 
   validateCarbonValue(): void {
@@ -160,6 +166,7 @@ export class CarbonfootprintListComponent implements OnInit {
           };
           this.carbonFootprints[index] = footprintdata; // Update locally
           this.updateDisplayedFootprints(); // Update displayed footprints
+          this.getallfootprint();
         }
         this.closeModal(); // Close the modal
       },
@@ -204,6 +211,7 @@ export class CarbonfootprintListComponent implements OnInit {
         this.totalFootprints = this.carbonFootprints.length; // Update total footprints after filtering
         this.currentPage = 1; // Reset to first page after filtering
         this.updateDisplayedFootprints(); // Update displayed footprints
+
         this.closeFilterModal();
       },
       (error) => {
@@ -232,4 +240,106 @@ export class CarbonfootprintListComponent implements OnInit {
       this.updateDisplayedFootprints(); // Update displayed footprints
     }
   }
+
+  hasValidRelations(footprint: any): boolean {
+    return footprint.relations.some(relation => relation.relation !== 'type');
+  }
+
+  //*********************code pour ajouter nouvelle relation************************//
+
+  showModal = false; // Contrôle l'affichage de la modale
+
+  strategies: any[] = [];
+
+  footprintData: any = {}; // Changez cela pour être un objet, pas un tableau
+
+  RelationsDispo: any[] = []; // To store the carbon footprints
+
+  RelationNameInput: string = '';
+
+  relationType: 'manual' | 'available' = 'manual'; // Type de relation sélectionné
+
+  selectedRelation: string = '';
+  selectedStrategy: string = ''; // Pour stocker la stratégie sélectionnée
+
+
+  openAddRelationModal(footprint: any): void {
+    this.showModal = true; // Affiche la modale
+    this.footprintData = footprint;
+    console.log(this.footprintData);
+  }
+
+  closeAddRelationModal(): void {
+    this.showModal = false; // Ferme la modale
+  }
+
+
+  getalldispoRelations(): void {
+    this.carbonFootprintService.getRelations().subscribe(
+      (data) => {
+        this.RelationsDispo = data.relations;
+        console.log(this.RelationsDispo);
+        this.cdr.detectChanges(); // Force la détection des changements
+      },
+      (error) => {
+        console.error('Error fetching relations', error);
+      }
+    );
+  }
+
+  getAllStrategies(): void {
+    this.carbonReductionStrategyService.getAllCarbonReductionStrategies().subscribe(
+      (data) => {
+        console.log(data); // Pour inspecter la structure des données
+        if (data.CarbonReductionStrategy) {
+          this.strategies = data.CarbonReductionStrategy.map(strategy => strategy.reductionStrategyName);
+        } else {
+          console.error('Aucune stratégie de réduction de carbone trouvée.');
+        }
+        console.log(this.strategies); // Vérifiez que les stratégies sont correctement définies
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des stratégies', error);
+      }
+    );
+  }
+
+  async addRelationFinal(): Promise<void> {
+    try {
+      // Ajout d'une relation manuelle
+      if (this.relationType === 'manual') {
+        // Ajout de la relation
+        await this.carbonFootprintService.addRelation(this.RelationNameInput).toPromise();
+        console.log('Relation ajoutée avec succès:', this.RelationNameInput);
+
+        // Ajout de l'instance de relation
+        await this.carbonFootprintService.addInstanceWithRelation(
+          this.footprintData.footprintName,
+          this.selectedStrategy,
+          this.footprintData.hasCarbonValue,
+          this.footprintData.hasType,
+          this.RelationNameInput
+        ).toPromise();
+        console.log('Instance de relation ajoutée avec succès');
+      } else {
+        // Ajout de l'instance de relation avec une relation sélectionnée
+        await this.carbonFootprintService.addInstanceWithRelation(
+          this.footprintData.footprintName,
+          this.selectedStrategy,
+          this.footprintData.hasCarbonValue,
+          this.footprintData.hasType,
+          this.selectedRelation // Utilisez selectedRelation ici
+        ).toPromise();
+        console.log('Instance de relation ajoutée avec succès');
+      }
+      this.getallfootprint();
+      // Ferme la modale après le succès
+      this.closeAddRelationModal();
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout de la relation:', error);
+    }
+  }
+
+
+
 }
