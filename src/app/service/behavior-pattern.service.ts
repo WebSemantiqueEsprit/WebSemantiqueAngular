@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BehaviorPatternService {
-  private baseUrl = 'http://localhost:8080/behaviorpatterns';
+  private baseUrl = 'http://localhost:8082/behaviorpatterns';
 
   constructor(private http: HttpClient) {}
 
-  getAllBehaviorPatterns(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
+  getAllBehaviorPatterns(): Observable<any> {
+    return this.http.get<any>(this.baseUrl);
   }
 
   addBehaviorPattern(newPattern: any): Observable<string> {

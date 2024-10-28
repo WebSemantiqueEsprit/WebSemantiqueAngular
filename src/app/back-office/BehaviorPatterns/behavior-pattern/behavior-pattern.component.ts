@@ -18,13 +18,18 @@ export class BehaviorPatternComponent implements OnInit {
   }
 
   loadBehaviorPatterns(): void {
-    this.behaviorPatternService.getAllBehaviorPatterns()
-      .subscribe(data => {
-        this.behaviorPatterns = data;
-      }, error => {
+    this.behaviorPatternService.getAllBehaviorPatterns().subscribe(
+      (data) => {
+        console.log(data);
+        this.behaviorPatterns = data.behaviorPatterns; // Assigns an empty array if undefined
+      },
+      error => {
         console.error('Error fetching behavior patterns', error);
-      });
+      }
+    );
   }
+
+
 
   addBehaviorPattern(): void {
     this.behaviorPatternService.addBehaviorPattern(this.newPattern)
@@ -37,10 +42,14 @@ export class BehaviorPatternComponent implements OnInit {
       });
   }
 
-  updateBehaviorPattern(name: string): void {
-    this.behaviorPatternService.updateBehaviorPattern(name, this.updatedPattern)
+  editBehaviorPattern(pattern: any): void {
+    this.updatedPattern = { ...pattern }; // Clone the pattern to avoid direct mutations
+  }
+
+  updateBehaviorPattern(pattern: any): void {
+    this.behaviorPatternService.updateBehaviorPattern(pattern.behaviorPatternName, pattern)
       .subscribe(response => {
-        console.log(response);
+        console.log('Behavior pattern updated:', response);
         this.loadBehaviorPatterns(); // Reload the list after updating
         this.updatedPattern = {}; // Reset updated pattern object
       }, error => {

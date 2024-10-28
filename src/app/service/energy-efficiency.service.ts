@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EnergyEfficiencyService {
-  private baseUrl = 'http://localhost:8080/energy-efficiencies';
+  private baseUrl = 'http://localhost:8082/energy-efficiencies';
 
   constructor(private http: HttpClient) {}
 
@@ -43,11 +43,16 @@ export class EnergyEfficiencyService {
 
   // Filter energy efficiencies by rating and minimum savings potential
   filterEnergyEfficiencies(rating: string, minSavingsPotential: number): Observable<any> {
+    // Validate inputs
+    if (!rating || minSavingsPotential == null) {
+      throw new Error('Both rating and minSavingsPotential are required');
+    }
+
     const params = new HttpParams()
       .set('rating', rating)
       .set('minSavingsPotential', minSavingsPotential.toString());
 
-    return this.http.get(`${this.baseUrl}/filter`, { params });
+    return this.http.get<any>(`${this.baseUrl}/filter`, { params });
   }
 
 }
