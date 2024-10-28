@@ -22,6 +22,9 @@ const routes: Routes = [
       { path: "energy-efficiency", loadChildren: () => import('./EnergiyEfficiency/energy-efficiency.module').then(m => m.EnergyEfficiencyModule) },
       {path: "behavior-pattern", loadChildren: () => import('./BehaviorPatterns/behavior-pattern.module').then(m => m.BehaviorPatternModule)},
       {path:"cabonreductionstrategy",loadChildren:()=>   import('./CABONREDUCTIONSTRATEGY/cabonreductionstrategy.module').then(m=>m.cabonreductionstrategyModule)},
+      {path:"device",loadChildren:()=>   import('./device/device.module').then(m=>m.DeviceModule)},
+      {path:"energySource",loadChildren:()=>   import('./energy-source/energy-source.module').then(m=>m.EnergySourceModule)},
+
 
       {path:"usersontolog",loadChildren:()=>   import('./USERONTO/user-ontolog.module').then(m=>m.UserOntologModule)},
       {path:"dashboard", component:HomeBackComponent}
