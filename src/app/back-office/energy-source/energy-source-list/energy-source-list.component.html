@@ -1,0 +1,94 @@
+<div class="container mx-auto mt-12 px-5">
+    <h3 class="text-4xl font-bold mb-4 text-center text-gray-800">
+        Liste des Sources d'Énergie
+    </h3>
+
+    <div class="text-center mb-8">
+        <button (click)="addEnergySource()"
+            class="bg-blue-600 text-white rounded-full mx-auto px-4 py-2 shadow-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Ajouter une Source d'Énergie</span>
+        </button>
+    </div>
+
+    <!-- Formulaire de filtrage par plage de pourcentage renouvelable -->
+    <div class="flex justify-center mb-10 space-x-4">
+        <input type="text" [(ngModel)]="minRenewablePercentage" (ngModelChange)="onMinRenewablePercentageChange()" 
+               placeholder="Pourcentage min" 
+               class="border border-gray-300 rounded-l-md p-3 w-full max-w-xs focus:outline-none" />
+        <input type="text" [(ngModel)]="maxRenewablePercentage" (ngModelChange)="onMaxRenewablePercentageChange()" 
+               placeholder="Pourcentage max" 
+               class="border border-gray-300 p-3 w-full max-w-xs focus:outline-none" />
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="flex justify-center mb-10">
+        <div class="flex w-full max-w-md">
+            <input type="text" [(ngModel)]="searchValue" (ngModelChange)="onSearchChange($event)" 
+                   placeholder="Rechercher par type de source d'énergie"
+                   class="border border-gray-300 rounded-l-md p-3 w-full focus:outline-none">
+        </div>
+    </div>
+
+    <!-- Liste des sources d'énergie -->
+    <div *ngIf="displayedEnergySources.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let source of displayedEnergySources" 
+             class="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 text-center">
+            <p class="font-semibold text-lg mb-2 text-gray-800">{{ source.energyType }}</p>
+            <p class="text-gray-600"><strong>Pourcentage Renouvelable:</strong> {{ source.renewablePercentage }}%</p>
+
+            <!-- Boutons d'action -->
+            <div class="mt-4 flex justify-center space-x-3">
+                <button (click)="updateEnergySource(source)"
+                        class="border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-white rounded-full p-2 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 5l3 3m0 0l-12 12H4v-4L16 5z" />
+                    </svg>
+                </button>
+
+                <button (click)="deleteEnergySource(source)"
+                        class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-full p-2 transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message si aucune source d'énergie n'est trouvée -->
+    <div *ngIf="displayedEnergySources.length === 0" class="text-center mt-10">
+        <p class="text-gray-500 text-lg">Aucune source d'énergie trouvée.</p>
+    </div>
+
+    <!-- Modal pour ajout/modification de source d'énergie -->
+    <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg mx-4 transition-shadow duration-300">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">
+                {{ editEnergySource ? 'Modifier la Source d\'Énergie' : 'Ajouter une Source d\'Énergie' }}
+            </h2>
+            <form (ngSubmit)="editEnergySource ? submitUpdatedEnergySource() : submitNewEnergySource()">
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2">Type de Source:</label>
+                    <input type="text" [(ngModel)]="newEnergySource.energyType" name="energyType" required
+                           class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div class="mb-5">
+                    <label class="block text-gray-700 mb-2">Pourcentage Renouvelable:</label>
+                    <input type="number" [(ngModel)]="newEnergySource.renewablePercentage" name="renewablePercentage" required
+                           class="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" (click)="closeModal()" class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 mr-3">
+                        Annuler
+                    </button>
+                    <button type="submit" class="bg-blue-600 text-white rounded-md px-4 py-2">
+                        {{ editEnergySource ? 'Modifier' : 'Ajouter' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
