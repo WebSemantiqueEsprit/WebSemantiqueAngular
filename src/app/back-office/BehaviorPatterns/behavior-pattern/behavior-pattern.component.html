@@ -60,7 +60,7 @@
     <input class="form-group" [(ngModel)]="filterUsagePattern" placeholder="Usage Pattern" />
     <input class="form-group" [(ngModel)]="maxReductionPotential" type="number" placeholder="Max Reduction Potential" />
     </div>
-    <button class="btn-filter" style="width: 100%"(click)="filterBehaviorPatterns()">Filter</button>
+    <button class="btn-filter" style="width: 100%" (click)="filterBehaviorPatterns()">Filter</button>
   </section>
   <!-- Behavior Patterns List -->
   <section>
@@ -93,12 +93,7 @@
 </div>
 
 <style>
-  .energy-efficiency {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
+
 
   .form-section {
     background: #ffffff;
