@@ -20,6 +20,9 @@ const routes: Routes = [
       {path:"storage",loadChildren:()=>   import('./energy-storage/energy-storage.module').then(m=>m.EnergyStorageModule)},
       {path:"solution",loadChildren:()=>   import('./optimization-solution/optimization-solution.module').then(m=>m.OptimizationSolutionModule)},
       {path:"cabonreductionstrategy",loadChildren:()=>   import('./CABONREDUCTIONSTRATEGY/cabonreductionstrategy.module').then(m=>m.cabonreductionstrategyModule)},
+      {path:"device",loadChildren:()=>   import('./device/device.module').then(m=>m.DeviceModule)},
+      {path:"energySource",loadChildren:()=>   import('./energy-source/energy-source.module').then(m=>m.EnergySourceModule)},
+
 
       {path:"usersontolog",loadChildren:()=>   import('./USERONTO/user-ontolog.module').then(m=>m.UserOntologModule)},
       {path:"dashboard", component:HomeBackComponent}
