@@ -10,7 +10,6 @@ export class EnergyEfficiencyService {
 
   constructor(private http: HttpClient) {}
 
-  // Get all energy efficiencies with optional filters
   getEnergyEfficiencies(rating?: string, minSavings?: number, maxSavings?: number): Observable<any> {
     let params = new HttpParams();
     if (rating) params = params.set('rating', rating);
