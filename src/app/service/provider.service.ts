@@ -40,4 +40,7 @@ export class ProviderService {
   getAllProviders(): Observable<{ providers: Provider[] }> { // Specify the return type correctly
     return this.http.get<{ providers: Provider[] }>(this.baseUrl);
   }
+  searchProviders(searchTerm: string): Observable<{ providers: Provider[] }> {
+    return this.http.get<{ providers: Provider[] }>(`${this.baseUrl}/search?searchTerm=${searchTerm}`);
+  }
 }

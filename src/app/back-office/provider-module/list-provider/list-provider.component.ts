@@ -19,6 +19,7 @@ export class ListProviderComponent implements OnInit {
   isEditing: boolean = false; // To check if we are editing an existing provider
   newProvider: Provider = { providerName: '', greenEnergyPercentage: 0 }; // Initialize with default values
   currentProviderName: string; // To hold the name of the provider being edited
+  searchTerm: string = ''; // Variable to bind with search input
 
   constructor(private providerService: ProviderService) {}
 
@@ -117,6 +118,20 @@ export class ListProviderComponent implements OnInit {
       this.updateProvider();
     } else {
       this.addProvider();
+    }
+  }
+  searchProviders(): void {
+    if (this.searchTerm.trim()) {
+      this.providerService.searchProviders(this.searchTerm).subscribe({
+        next: (data) => {
+          this.providers = data.providers;
+        },
+        error: (err) => {
+          console.error('Error searching providers', err);
+        }
+      });
+    } else {
+      this.fetchProviders(); // If search term is empty, fetch all providers
     }
   }
 }
