@@ -59,22 +59,18 @@ export class ConsommationEnergieListComponent implements OnInit {
       this.newEnergy.timeFrame = `${formattedStartDate} to ${formattedEndDate}`;
     }
 
-
     console.log(this.newEnergy.timeFrame)
     this.connsamationEnergieService.addEnergieConsumption(this.newEnergy).subscribe(
       (response) => {
         console.log('Energy entry added successfully:', response);
-
-
         const energydata={
           uri : this.newEnergy.uri,
           value:this.newEnergy.value,
           timeFrame:this.newEnergy.timeFrame
         }
-
         console.log(energydata)
         this.Energy.push({ ...energydata });
-
+        this.getallEnergie();
         this.isModalOpen = false; // Close the modal
       },
       (error) => {
