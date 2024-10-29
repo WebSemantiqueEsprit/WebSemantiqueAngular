@@ -1,80 +1,65 @@
 <div class="container mt-20">
-
-  <!-- Définition de la liste des fournisseurs -->
-  <h3 class="text-3xl font-bold mb-6 text-center">
-      Liste des Fournisseurs
-  </h3>
+  <h3 class="text-3xl font-bold mb-6 text-center">Liste des Fournisseurs</h3>
   <p class="text-lg text-gray-600 mb-8 text-center">
-      Découvrez notre liste complète des fournisseurs disponibles, incluant leurs détails et actions possibles.
+    Découvrez notre liste complète des fournisseurs disponibles, incluant leurs détails et actions possibles.
   </p>
 
-  <!-- Bouton pour ajouter un nouveau fournisseur -->
   <div class="text-center mb-6">
-      <button
-          class="bg-blue-500 text-white rounded-md px-6 py-2 hover:bg-blue-600 transition duration-200">
-          Ajouter un nouveau fournisseur
-      </button>
+    <button (click)="openAddModal()"
+      class="bg-blue-500 text-white rounded-md px-6 py-2 hover:bg-blue-600 transition duration-200">
+      Ajouter un nouveau fournisseur
+    </button>
   </div>
 
-  <!-- Liste des fournisseurs -->
   <div *ngIf="providers.length > 0">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div *ngFor="let provider of providers"
-              class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 text-center">
-              <p><strong>Nom du fournisseur :</strong> {{ provider.hasNameProvider }} aaa</p>
-              <p><strong>Détails :</strong> {{ provider.providerName }}</p>
-              <p><strong>Autres Détails :</strong> {{ provider.providerName }}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let provider of providers"
+        class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 text-center">
+        <p><strong>Nom du fournisseur :</strong> {{ provider.hasNameProvider }}</p>
+        <p><strong>Pourcentage d'énergie verte :</strong> {{ provider.hasGreenEnergyPercentage }}%</p>
 
-              <!-- Boutons pour modifier ou supprimer -->
-              <div class="mt-4 flex justify-center space-x-4">
-                  <!-- Bouton Modifier (vert) -->
-                  <button
-                      class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
-                      Modifier
-                  </button>
+        <div class="mt-4 flex justify-center space-x-4">
+          <button (click)="openEditModal(provider)"
+            class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+            Modifier
+          </button>
 
-                  <!-- Bouton Supprimer (rouge) -->
-                  <button
-                      class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
-                      Supprimer
-                  </button>
-              </div>
-          </div>
+          <button (click)="deleteProvider(provider.providerName)"
+            class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+            Supprimer
+          </button>
+        </div>
       </div>
+    </div>
   </div>
 
-  <!-- Message si aucun fournisseur n'est trouvé -->
   <div *ngIf="providers.length === 0" class="text-center">
-      <p class="text-gray-500">Aucun fournisseur trouvé.</p>
+    <p class="text-gray-500">Aucun fournisseur trouvé.</p>
   </div>
 
-  <!-- Modal pour ajouter/mettre à jour les fournisseurs -->
   <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white shadow-lg rounded-lg p-6 w-96 md:w-96 hover:shadow-xl transition-shadow duration-300 text-start">
-          <h2 class="text-xl font-bold mb-4"></h2>
-          <form>
-              <div class="mb-4">
-                  <label class="block mb-1">Nom du fournisseur:</label>
-                  <input type="text" [(ngModel)]="newProvider.providerName" name="providerName" required
-                      class="border border-gray-300 rounded-md p-2 w-full" />
-              </div>
-              <div class="mb-4">
-                  <label class="block mb-1">Détails:</label>
-                  <input type="text" name="details" required
-                      class="border border-gray-300 rounded-md p-2 w-full" />
-              </div>
-              <div class="flex justify-between">
-                  <button type="submit"
-                      class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
-
-                  </button>
-                  <button  type="button"
-                      class="border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
-                      Annuler
-                  </button>
-              </div>
-          </form>
-      </div>
+    <div class="bg-white shadow-lg rounded-lg p-6 w-96 hover:shadow-xl transition-shadow duration-300 text-start">
+      <h2 class="text-xl font-bold mb-4">{{ isEditing ? 'Modifier un fournisseur' : 'Ajouter un fournisseur' }}</h2>
+      <form (ngSubmit)="onSubmit()">
+        <div *ngIf="!isEditing" class="mb-4">
+          <label class="block mb-1">Nom du fournisseur:</label>
+          <input type="text" [(ngModel)]="newProvider.providerName" name="providerName" required class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+        <div class="mb-4">
+          <label class="block mb-1">Pourcentage d'énergie verte:</label>
+          <input type="number" [(ngModel)]="newProvider.greenEnergyPercentage" name="greenEnergyPercentage" required class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+        <div class="flex justify-between">
+          <button type="submit"
+            class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+            {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+          </button>
+          <button (click)="closeModal()" type="button"
+            class="border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-
 </div>

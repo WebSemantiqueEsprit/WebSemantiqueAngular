@@ -1,6 +1,6 @@
 // carbonfootprint-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CarbonFootprintService } from 'src/app/service/carbonfootprint.Service';
+import { CarbonFootprintService } from 'src/app/service/carbonfootprint.service';
 
 @Component({
   selector: 'app-carbonfootprint-list',

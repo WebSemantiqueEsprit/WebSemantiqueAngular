@@ -21,7 +21,8 @@ const routes: Routes = [
       {path:"usersontolog",loadChildren:()=>   import('./USERONTO/user-ontolog.module').then(m=>m.UserOntologModule)},
       {path:"dashboard", component:HomeBackComponent},
 
-      {path:"providers", loadChildren:()=>   import('./provider-module/provider-module.module').then(m=>m.ProviderModuleModule)}
+      {path:"providers", loadChildren:()=>   import('./provider-module/provider-module.module').then(m=>m.ProviderModuleModule)},
+      {path:"contracts", loadChildren:()=>   import('./contract-module/contract-module.module').then(m=>m.ContractModuleModule)}
 
 ]}];
 
