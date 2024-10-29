@@ -11,6 +11,7 @@ export class UserOntologListComponent implements OnInit {
   newUser: any = { Name: '', Email: '', CarbonFootprintGoal: '' }; // Object for the new user entry
   editUser: any = null; // To store user being edited
   isModalOpen = false; // Track the modal state
+  searchTerm: string = '';
 
   constructor(private utilisateurService: UserOntoService) { }
 
@@ -98,6 +99,29 @@ export class UserOntologListComponent implements OnInit {
         console.error('Error updating user:', error);
       }
     );
+  }
+
+
+  searchUser(): void {
+    if (this.searchTerm) {
+      this.utilisateurService.searchUser(this.searchTerm).subscribe(
+        (data) => {
+          this.users = data; // Update Energy with the search results
+        },
+        (error) => {
+          console.error('Error searching energy efficiency data', error);
+        }
+      );
+    } else {
+      this.getAllUsers(); // If search term is empty, refresh the full list
+    }
+  }
+
+  // Existing methods...
+
+  // Function to handle the input change for the search
+  onSearchInputChange(): void {
+    this.searchUser();
   }
 
   // Delete a user entry
