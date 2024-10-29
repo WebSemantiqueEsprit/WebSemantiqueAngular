@@ -19,7 +19,9 @@ const routes: Routes = [
       {path:"connsamationEnergie",loadChildren:()=>   import('./ConsommationENERGIE/consommation-energie.module').then(m=>m.ConsommationEnergieModule)},
 
       {path:"usersontolog",loadChildren:()=>   import('./USERONTO/user-ontolog.module').then(m=>m.UserOntologModule)},
-      {path:"dashboard", component:HomeBackComponent}
+      {path:"dashboard", component:HomeBackComponent},
+
+      {path:"providers", loadChildren:()=>   import('./provider-module/provider-module.module').then(m=>m.ProviderModuleModule)}
 
 ]}];
 

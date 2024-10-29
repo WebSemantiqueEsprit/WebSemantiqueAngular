@@ -13,6 +13,8 @@ import { UniversiteModule } from './universite/universite.module';
 import { FoyerModule } from './foyer/foyer.module';
 import { ConsommationEnergieListComponent } from './ConsommationENERGIE/consommation-energie-list/consommation-energie-list.component';
 import { UserOntologListComponent } from './USERONTO/user-ontolog-list/user-ontolog-list.component';
+import { ProviderModuleModule } from './provider-module/provider-module.module';
+
 
 
 
@@ -28,12 +30,13 @@ import { UserOntologListComponent } from './USERONTO/user-ontolog-list/user-onto
             HomeBackComponent,
             SidebarComponent,
             NavComponent,
-            UserOntologListComponent ,
+            UserOntologListComponent,
          ],
   imports: [
     CommonModule,
     BackOfficeRoutingModule,
     BlocModule,
+    ProviderModuleModule,
     HttpClientModule,
     FormsModule,
   ]
