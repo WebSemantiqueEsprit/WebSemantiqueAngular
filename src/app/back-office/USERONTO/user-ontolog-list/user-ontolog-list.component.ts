@@ -57,7 +57,9 @@ export class UserOntologListComponent implements OnInit {
         }
 
         this.users.push({ ...energydata }); // Update locally
+        this.getAllUsers(); 
         this.isModalOpen = false; // Close the modal
+
       },
       (error) => {
         console.error('Error adding user entry:', error);
@@ -95,6 +97,7 @@ export class UserOntologListComponent implements OnInit {
             URI:this.newUser.URI,
           }; // Update locally
         }
+        this.getAllUsers(); 
         this.closeModal(); // Close the modal
       },
       (error) => {
