@@ -9,11 +9,6 @@
     incluant l'électricité, le gaz, et d'autres sources d'énergie.
   </p>
 
-  <div class="text-center mb-4">
-    <input type="text" [(ngModel)]="searchTerm" (input)="onSearchInputChange()"
-           placeholder="Rechercher par nom d'efficacité" class="border border-gray-300 rounded-md p-2 w-1/3" />
-  </div>
-
   <!-- Button to Add New Energy Consumption -->
   <div class="text-center mb-6">
     <button (click)="addEnergy()"
@@ -21,6 +16,21 @@
       <i class="fa-solid fa-plus"></i>
     </button>
   </div>
+
+  <div>
+    <input placeholder="Min Value" type="number" id="minValue" [(ngModel)]="minValue" (change)="onMinValueChange()"
+           class="border border-gray-300 rounded-md p-2 w-1/3"/>
+
+    <input placeholder="Max Value" type="number" id="maxValue" [(ngModel)]="maxValue" (change)="onMaxValueChange()"
+           class="border border-gray-300 rounded-md p-2 w-1/3"/>
+  </div>
+
+  <div class="text-center mb-4">
+    <input type="text" [(ngModel)]="searchTerm" (input)="onSearchInputChange()"
+           placeholder="Rechercher par nom d'efficacité" class="border border-gray-300 rounded-md p-2 w-1/3" />
+  </div>
+
+
 
   <!-- Energy Consumption List -->
   <div *ngIf="Energy.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
