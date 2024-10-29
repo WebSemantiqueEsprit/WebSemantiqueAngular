@@ -14,6 +14,7 @@ export class ConsommationEnergieListComponent implements OnInit {
   isModalOpen = false; // Track the modal state*
   startDate: string = '';
   endDate: string = '';
+  searchTerm: string = '';
 
   startDATEC: string = '';
   endDATEC: string = '';
@@ -132,6 +133,29 @@ export class ConsommationEnergieListComponent implements OnInit {
     );
   }
 
+
+
+  searchEnergyEfficiency(): void {
+    if (this.searchTerm) {
+      this.connsamationEnergieService.searchEnergyEfficiency(this.searchTerm).subscribe(
+        (data) => {
+          this.Energy = data; // Update Energy with the search results
+        },
+        (error) => {
+          console.error('Error searching energy efficiency data', error);
+        }
+      );
+    } else {
+      this.getallEnergie(); // If search term is empty, refresh the full list
+    }
+  }
+
+  // Existing methods...
+
+  // Function to handle the input change for the search
+  onSearchInputChange(): void {
+    this.searchEnergyEfficiency();
+  }
 
 
 
