@@ -12,6 +12,8 @@ export class UserOntologListComponent implements OnInit {
   editUser: any = null; // To store user being edited
   isModalOpen = false; // Track the modal state
   searchTerm: string = '';
+  carbonFootprintGoal: string = '';
+
 
   constructor(private utilisateurService: UserOntoService) { }
 
@@ -122,6 +124,17 @@ export class UserOntologListComponent implements OnInit {
   // Function to handle the input change for the search
   onSearchInputChange(): void {
     this.searchUser();
+  }
+
+  onCarbonFootprintGoalChange(): void {
+    this.utilisateurService.filterUser(this.carbonFootprintGoal).subscribe(
+      (data) => {
+        this.users = data; // Assuming the API returns the filtered user list
+      },
+      (error) => {
+        console.error('Error filtering users', error);
+      }
+    );
   }
 
   // Delete a user entry

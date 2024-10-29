@@ -15,6 +15,9 @@ export class ConsommationEnergieListComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
   searchTerm: string = '';
+  minValue: string = ''; // Added for min value input
+  maxValue: string = ''; // Added for max value input
+
 
   startDATEC: string = '';
   endDATEC: string = '';
@@ -158,7 +161,30 @@ export class ConsommationEnergieListComponent implements OnInit {
   }
 
 
+  onMinValueChange(): void {
+    this.filterEnergyEfficiency();
+  }
 
+  // Function to handle the change event for maximum value input
+  onMaxValueChange(): void {
+    this.filterEnergyEfficiency();
+  }
+
+  // Filter method based on min and max values
+  filterEnergyEfficiency(): void {
+    if (this.minValue && this.maxValue) {
+      this.connsamationEnergieService.filterEnergyEfficiency(this.minValue, this.maxValue).subscribe(
+        (data) => {
+          this.Energy = data; // Assuming the API returns the filtered user list
+        },
+        (error) => {
+          console.error('Error filtering energy efficiency data', error);
+        }
+      );
+    } else {
+      this.getallEnergie(); // Refresh the list if inputs are empty
+    }
+  }
 
   deleteEnergy(energy: any): void {
     this.connsamationEnergieService.deleteEnergieConsumption(energy.URI).subscribe(
