@@ -13,8 +13,12 @@ import { UniversiteModule } from './universite/universite.module';
 import { FoyerModule } from './foyer/foyer.module';
 import { ConsommationEnergieListComponent } from './ConsommationENERGIE/consommation-energie-list/consommation-energie-list.component';
 import { UserOntologListComponent } from './USERONTO/user-ontolog-list/user-ontolog-list.component';
+
 import { ProviderModuleModule } from './provider-module/provider-module.module';
 
+
+import {EnergyStorageModule} from "./energy-storage/energy-storage.module";
+import {OptimizationSolutionModule} from "./optimization-solution/optimization-solution.module";
 
 
 
@@ -39,6 +43,8 @@ import { ProviderModuleModule } from './provider-module/provider-module.module';
     ProviderModuleModule,
     HttpClientModule,
     FormsModule,
+    EnergyStorageModule,
+    OptimizationSolutionModule
   ]
 })
 export class BackOfficeModule { }

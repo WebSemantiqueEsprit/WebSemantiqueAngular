@@ -1,0 +1,64 @@
+<div class="container mt-20">
+  <!-- Title -->
+  <h3 class="text-3xl font-bold mb-6 text-center">Gestion des Stockages d'Énergie</h3>
+
+  <!-- Button to Add New Energy Storage -->
+  <div class="text-center mb-6">
+    <button (click)="openModal()" class="bg-blue-500 text-white rounded-md px-6 py-2 hover:bg-blue-600 transition duration-200">
+      Ajouter un nouveau stockage d'énergie
+    </button>
+  </div>
+
+  <!-- List of Energy Storages -->
+  <div *ngIf="energyStorages.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let storage of energyStorages" class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 text-center">
+      <p><strong>Nom du stockage:</strong> {{ storage.storageName }}</p>
+      <p><strong>Capacité:</strong> {{ storage.capacity }} kWh</p>
+      <p><strong>Efficacité:</strong> {{ storage.efficiency }}%</p>
+
+      <!-- Update and Delete Buttons -->
+      <div class="mt-4 flex justify-center space-x-4">
+        <button (click)="openModal(storage)" class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+          Modifier
+        </button>
+        <button (click)="deleteEnergyStorage(storage.storageName)" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message if No Energy Storages Found -->
+  <div *ngIf="energyStorages.length === 0" class="text-center">
+    <p class="text-gray-500">Aucun stockage d'énergie trouvé.</p>
+  </div>
+
+  <!-- Modal for Adding/Updating Energy Storage -->
+  <div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-96 md:w-96 hover:shadow-xl transition-shadow duration-300">
+      <h2 class="text-xl font-bold mb-4">{{ editEnergyStorage ? 'Modifier le stockage d\'énergie' : 'Ajouter un nouveau stockage d\'énergie' }}</h2>
+      <form (ngSubmit)="submitEnergyStorage()">
+        <div class="mb-4">
+          <label class="block mb-1">Nom du stockage:</label>
+          <input type="text" [(ngModel)]="newEnergyStorage.storageName" name="storageName" required class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+        <div class="mb-4">
+          <label class="block mb-1">Capacité (kWh):</label>
+          <input type="number" [(ngModel)]="newEnergyStorage.capacity" name="capacity" required class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+        <div class="mb-4">
+          <label class="block mb-1">Efficacité (%):</label>
+          <input type="number" [(ngModel)]="newEnergyStorage.efficiency" name="efficiency" required class="border border-gray-300 rounded-md p-2 w-full" />
+        </div>
+        <div class="flex justify-between">
+          <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-200">
+            {{ editEnergyStorage ? 'Mettre à jour' : 'Ajouter' }}
+          </button>
+          <button (click)="closeModal()" type="button" class="border border-gray-500 text-gray-500 hover:bg-gray-500 hover:text-white rounded-md px-4 py-2 transition duration-200">
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

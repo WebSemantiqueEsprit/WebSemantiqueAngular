@@ -27,4 +27,12 @@ export class UserOntoService {
     return this.http.put(this.apiUrl+`/${UserName}`, User, { responseType: 'text' });
   }
 
+  searchUser(UserName: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/search?UserName=${UserName}`);
+  }
+
+  filterUser(carbonFootprintGoal: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/filter?carbonFootprintGoal=${carbonFootprintGoal}`);
+  }
+
 }

@@ -1,4 +1,6 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ContractService, Contract } from 'src/app/service/contract.service'; // Import the Contract interface
 
 @Component({
@@ -13,8 +15,12 @@ export class ListContractComponent implements OnInit {
   isEditing: boolean = false; // To check if we are editing an existing contract
   newContract: Contract = { contractName: '', hasCostContract: '', hasDuration: '' }; // Initialize with default values
   currentContractName: string; // To hold the name of the contract being edited
+  searchTerm: string = '';
+  minCost: number | undefined;
+  maxCost: number | undefined;
+  duration: string = '';
 
-  constructor(private contractService: ContractService) {}
+  constructor(private contractService: ContractService,private http: HttpClient) {}
 
   ngOnInit(): void {
     this.fetchContracts();
@@ -109,5 +115,13 @@ export class ListContractComponent implements OnInit {
     } else {
       this.addContract();
     }
+  }
+  searchContracts() {
+    this.contractService.searchContracts(this.searchTerm, this.minCost, this.maxCost, this.duration)
+      .subscribe((response: { contracts: Contract[] }) => {
+        this.contracts = response.contracts; // Adjust based on your response structure
+      }, error => {
+        console.error('Error fetching contracts', error);
+      });
   }
 }

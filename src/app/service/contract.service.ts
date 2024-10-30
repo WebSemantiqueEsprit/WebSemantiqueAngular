@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Contract {
@@ -34,5 +34,23 @@ export class ContractService {
   // Delete a contract
   deleteContract(contractName: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${contractName}`);
+  }searchContracts(contractName?: string, minCost?: number, maxCost?: number, duration?: string): Observable<any> {
+    let params = new HttpParams();
+
+    if (contractName) {
+      params = params.set('contractName', contractName);
+    }
+    if (minCost) {
+      params = params.set('minCost', minCost.toString());
+    }
+    if (maxCost) {
+      params = params.set('maxCost', maxCost.toString());
+    }
+    if (duration) {
+      params = params.set('duration', duration);
+    }
+
+    return this.http.get(`${this.apiUrl}/search`, { params });
   }
+
 }

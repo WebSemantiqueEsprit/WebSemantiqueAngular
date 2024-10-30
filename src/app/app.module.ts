@@ -16,6 +16,7 @@ import {authInterceptorProviders} from "./helper/auth.interceptor";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
+import {EnergyStorageModule} from "./back-office/energy-storage/energy-storage.module";
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ToastrModule.forRoot({
       // Toastr configuration options
     }),
+    EnergyStorageModule
 
    ],
 

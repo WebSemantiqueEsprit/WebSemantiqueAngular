@@ -26,4 +26,12 @@ export class ConnsamationEnergieService {
     return this.http.put(this.apiUrl+`/${EnergieConsumptionName}`, energyName, { responseType: 'text' });
   }
 
+  searchEnergyEfficiency(efficiencyName: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/search?efficiencyName=${efficiencyName}`);
+  }
+
+  filterEnergyEfficiency(minValue: string,maxValue : string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/filter?minValue=${minValue}&maxValue=${maxValue}`);
+  }
+
 }

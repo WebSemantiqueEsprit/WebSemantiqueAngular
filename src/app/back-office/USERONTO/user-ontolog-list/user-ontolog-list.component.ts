@@ -11,6 +11,9 @@ export class UserOntologListComponent implements OnInit {
   newUser: any = { Name: '', Email: '', CarbonFootprintGoal: '' }; // Object for the new user entry
   editUser: any = null; // To store user being edited
   isModalOpen = false; // Track the modal state
+  searchTerm: string = '';
+  carbonFootprintGoal: string = '';
+
 
   constructor(private utilisateurService: UserOntoService) { }
 
@@ -54,7 +57,9 @@ export class UserOntologListComponent implements OnInit {
         }
 
         this.users.push({ ...energydata }); // Update locally
+        this.getAllUsers(); 
         this.isModalOpen = false; // Close the modal
+
       },
       (error) => {
         console.error('Error adding user entry:', error);
@@ -92,10 +97,45 @@ export class UserOntologListComponent implements OnInit {
             URI:this.newUser.URI,
           }; // Update locally
         }
+        this.getAllUsers(); 
         this.closeModal(); // Close the modal
       },
       (error) => {
         console.error('Error updating user:', error);
+      }
+    );
+  }
+
+
+  searchUser(): void {
+    if (this.searchTerm) {
+      this.utilisateurService.searchUser(this.searchTerm).subscribe(
+        (data) => {
+          this.users = data; // Update Energy with the search results
+        },
+        (error) => {
+          console.error('Error searching energy efficiency data', error);
+        }
+      );
+    } else {
+      this.getAllUsers(); // If search term is empty, refresh the full list
+    }
+  }
+
+  // Existing methods...
+
+  // Function to handle the input change for the search
+  onSearchInputChange(): void {
+    this.searchUser();
+  }
+
+  onCarbonFootprintGoalChange(): void {
+    this.utilisateurService.filterUser(this.carbonFootprintGoal).subscribe(
+      (data) => {
+        this.users = data; // Assuming the API returns the filtered user list
+      },
+      (error) => {
+        console.error('Error filtering users', error);
       }
     );
   }

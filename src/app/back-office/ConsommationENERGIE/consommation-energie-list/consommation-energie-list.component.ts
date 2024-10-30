@@ -14,6 +14,10 @@ export class ConsommationEnergieListComponent implements OnInit {
   isModalOpen = false; // Track the modal state*
   startDate: string = '';
   endDate: string = '';
+  searchTerm: string = '';
+  minValue: string = ''; // Added for min value input
+  maxValue: string = ''; // Added for max value input
+
 
   startDATEC: string = '';
   endDATEC: string = '';
@@ -55,22 +59,18 @@ export class ConsommationEnergieListComponent implements OnInit {
       this.newEnergy.timeFrame = `${formattedStartDate} to ${formattedEndDate}`;
     }
 
-
     console.log(this.newEnergy.timeFrame)
     this.connsamationEnergieService.addEnergieConsumption(this.newEnergy).subscribe(
       (response) => {
         console.log('Energy entry added successfully:', response);
-
-
         const energydata={
           uri : this.newEnergy.uri,
           value:this.newEnergy.value,
           timeFrame:this.newEnergy.timeFrame
         }
-
         console.log(energydata)
         this.Energy.push({ ...energydata });
-
+        this.getallEnergie();
         this.isModalOpen = false; // Close the modal
       },
       (error) => {
@@ -134,7 +134,53 @@ export class ConsommationEnergieListComponent implements OnInit {
 
 
 
+  searchEnergyEfficiency(): void {
+    if (this.searchTerm) {
+      this.connsamationEnergieService.searchEnergyEfficiency(this.searchTerm).subscribe(
+        (data) => {
+          this.Energy = data; // Update Energy with the search results
+        },
+        (error) => {
+          console.error('Error searching energy efficiency data', error);
+        }
+      );
+    } else {
+      this.getallEnergie(); // If search term is empty, refresh the full list
+    }
+  }
 
+  // Existing methods...
+
+  // Function to handle the input change for the search
+  onSearchInputChange(): void {
+    this.searchEnergyEfficiency();
+  }
+
+
+  onMinValueChange(): void {
+    this.filterEnergyEfficiency();
+  }
+
+  // Function to handle the change event for maximum value input
+  onMaxValueChange(): void {
+    this.filterEnergyEfficiency();
+  }
+
+  // Filter method based on min and max values
+  filterEnergyEfficiency(): void {
+    if (this.minValue && this.maxValue) {
+      this.connsamationEnergieService.filterEnergyEfficiency(this.minValue, this.maxValue).subscribe(
+        (data) => {
+          this.Energy = data; // Assuming the API returns the filtered user list
+        },
+        (error) => {
+          console.error('Error filtering energy efficiency data', error);
+        }
+      );
+    } else {
+      this.getallEnergie(); // Refresh the list if inputs are empty
+    }
+  }
 
   deleteEnergy(energy: any): void {
     this.connsamationEnergieService.deleteEnergieConsumption(energy.URI).subscribe(
