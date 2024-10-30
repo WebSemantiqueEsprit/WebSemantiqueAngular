@@ -16,9 +16,11 @@ const routes: Routes = [
       {path:"reservation",loadChildren:()=>   import('./reservation/reservation.module').then(m=>m.ReservationModule)},
 
       {path:"carbonfootprint",loadChildren:()=>   import('./CARBONFOOTPRINT/carbonfootprint.module').then(m=>m.carbonfootprintModule)},
-      {path:"connsamationEnergie",loadChildren:()=>   import('./ConsommationENERGIE/consommation-energie.module').then(m=>m.ConsommationEnergieModule)},
       {path:"storage",loadChildren:()=>   import('./energy-storage/energy-storage.module').then(m=>m.EnergyStorageModule)},
       {path:"solution",loadChildren:()=>   import('./optimization-solution/optimization-solution.module').then(m=>m.OptimizationSolutionModule)},
+      {path:"connsamationEnergie",loadChildren:()=>   import('./ConsommationENERGIE/consommation-energie.module').then(m=>m.ConsommationEnergieModule)},
+      { path: "energy-efficiency", loadChildren: () => import('./EnergiyEfficiency/energy-efficiency.module').then(m => m.EnergyEfficiencyModule) },
+      {path: "behavior-pattern", loadChildren: () => import('./BehaviorPatterns/behavior-pattern.module').then(m => m.BehaviorPatternModule)},
       {path:"cabonreductionstrategy",loadChildren:()=>   import('./CABONREDUCTIONSTRATEGY/cabonreductionstrategy.module').then(m=>m.cabonreductionstrategyModule)},
       {path:"device",loadChildren:()=>   import('./device/device.module').then(m=>m.DeviceModule)},
       {path:"energySource",loadChildren:()=>   import('./energy-source/energy-source.module').then(m=>m.EnergySourceModule)},

@@ -1,0 +1,193 @@
+<div class="energy-efficiency" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+  <div class="d-flex mb-3">
+    <button class="btn btn-add me-2" style="margin-left: 440px;" (click)="toggleAddForm()">Add New Energy</button>
+    <button class="btn-filter" (click)="toggleFilterForm()">Filter Energy</button>
+  </div>
+
+  <section class="form-section">
+    <div class="form-inline">
+      <div class="form-group">
+        <input id="searchEfficiencyName" [(ngModel)]="searchEfficiencyName" placeholder="Enter Efficiency Name" />
+      </div>
+      <button class="btn-search" style="width: 100%" (click)="searchEfficiency(searchEfficiencyName)">Search</button>
+    </div>
+  </section>
+
+  <section class="form-section" *ngIf="showFilterForm">
+    <h3>Filter Efficiencies</h3>
+    <div class="form-group">
+      <label for="filterRating">Rating:</label>
+      <input id="filterRating" [(ngModel)]="filterRating" placeholder="Rating" />
+    </div>
+    <div class="form-group">
+      <label for="filterMinSavings">Min Savings Potential:</label>
+      <input id="filterMinSavings" type="number" [(ngModel)]="filterMinSavings" placeholder="Min Savings Potential" />
+    </div>
+    <button class="btn-filter" style="width: 100%" (click)="filterEfficiencies(filterRating, filterMinSavings)">Filter</button>
+  </section>
+
+  <!-- Add New Efficiency Form -->
+  <section class="form-section" *ngIf="showAddForm">
+    <h3>Add New Efficiency</h3>
+    <div class="form-group">
+      <label for="newEfficiencyName">Efficiency Name:</label>
+      <input id="newEfficiencyName" [(ngModel)]="newEfficiency.efficiencyName" placeholder="Efficiency Name" />
+    </div>
+    <div class="form-group">
+      <label for="newEfficiencyCategory">Category:</label>
+      <input id="newEfficiencyCategory" [(ngModel)]="newEfficiency.rating" placeholder="Category" />
+    </div>
+    <div class="form-group">
+      <label for="newEfficiencyValue">Efficiency Value:</label>
+      <input id="newEfficiencyValue" type="number" [(ngModel)]="newEfficiency.savingsPotential" placeholder="Efficiency Value" />
+    </div>
+    <button class="btn-add" (click)="addEnergyEfficiency()">Add Efficiency</button>
+  </section>
+
+
+  <!-- Efficiency List -->
+  <section>
+    <h3>Efficiency List</h3>
+    <table class="efficiency-table">
+      <thead>
+      <tr>
+        <th>Efficiency Name</th>
+        <th>Category</th>
+        <th>Efficiency Value</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let efficiency of efficiencies">
+        <td>{{ efficiency.efficiencyName }}</td>
+        <td>{{ efficiency.rating }}</td>
+        <td>{{ efficiency.savingsPotential }}</td>
+        <td>
+          <button class="btn-edit" style="margin-right: 20px" (click)="editEfficiency(efficiency)">Edit</button>
+          <button class="btn-delete" (click)="deleteEnergyEfficiency(efficiency.efficiencyName)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Update Selected Efficiency Form -->
+  <section class="form-section" *ngIf="selectedEfficiency">
+    <h3>Edit Efficiency</h3>
+    <div class="form-group">
+      <label for="editEfficiencyName">Efficiency Name:</label>
+      <input id="editEfficiencyName" [(ngModel)]="selectedEfficiency.efficiencyName" placeholder="Efficiency Name" disabled />
+    </div>
+    <div class="form-group">
+      <label for="editEfficiencyCategory">Category:</label>
+      <input id="editEfficiencyCategory" [(ngModel)]="selectedEfficiency.rating" placeholder="Category" />
+    </div>
+    <div class="form-group">
+      <label for="editEfficiencyValue">Efficiency Value:</label>
+      <input id="editEfficiencyValue" type="number" [(ngModel)]="selectedEfficiency.savingsPotential" placeholder="Efficiency Value" />
+    </div>
+    <button class="btn-update" (click)="updateEnergyEfficiency()">Update Efficiency</button>
+    <button class="btn-cancel" (click)="selectedEfficiency = null">Cancel</button>
+  </section>
+
+  <!-- Search Efficiency Form -->
+
+
+  <!-- Filter Efficiencies Form -->
+
+
+
+</div>
+
+<style>
+  .energy-efficiency {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+
+  .form-section {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .btn-add {
+    background-color: #4CAF50; /* Green */
+  }
+
+  .btn-update {
+    background-color: #2196F3; /* Blue */
+  }
+
+  .btn-cancel {
+    background-color: #f44336; /* Red */
+  }
+
+  .btn-search {
+    background-color: #FFC107; /* Yellow */
+  }
+
+  .btn-filter {
+    background-color: #2196F3; /* Blue */
+  }
+
+  .btn-edit {
+    background-color: #FFC107; /* Yellow */
+  }
+
+  .btn-delete {
+    background-color: #f44336; /* Red */
+  }
+
+  .efficiency-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .efficiency-table th,
+  .efficiency-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .efficiency-table th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+  }
+
+  .efficiency-table tr:hover {
+    background-color: #f9f9f9;
+  }
+</style>

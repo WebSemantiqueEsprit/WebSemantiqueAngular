@@ -25,7 +25,7 @@ import {EnergyStorageModule} from "./back-office/energy-storage/energy-storage.m
     NotFoundComponent,
 
 
-    ChartDemoComponent
+    ChartDemoComponent,
    ],
   imports: [
     BrowserModule,
