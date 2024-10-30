@@ -20,8 +20,6 @@ import { UserOntologListComponent } from './USERONTO/user-ontolog-list/user-onto
 
 
 
-
-
 @NgModule({
   declarations: [
 
